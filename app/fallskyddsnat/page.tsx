@@ -1,14 +1,15 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Shield, Award, Ruler, Leaf, FileText, Phone } from 'lucide-react';
 import PriceCalculator from '@/components/PriceCalculator';
 import FAQ from '@/components/FAQ';
+import { generatePageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = generatePageMetadata({
   title: 'Fallskyddsnät som räddar liv - Industrinät',
   description: 'Fallskyddsnät certifierade enligt EN1263-1. Kollektivt fallskydd för bygg och industri.',
-};
+  path: '/fallskyddsnat',
+});
 
 const products = [
   { article: 'Art.I2005', name: 'Skyddsnät 5mm 45mm maska', price: 123, unit: 'kvm', description: 'Klassat fallskyddsnät för person- och föremålsskydd.' },
@@ -48,7 +49,7 @@ export default function FallskyddsnatPage() {
                 EN1263-1 Certifierat
               </span>
               <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-                Fallskyddsnät som räddar liv
+                Fallskyddsnät
               </h1>
               <p className="text-xl text-gray-600 mb-8">
                 Fallskyddsnät är ett kollektivt skydd som inte kräver kompetens hos användaren. 
@@ -143,6 +144,125 @@ export default function FallskyddsnatPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-gray-900 mb-8">Vanliga frågor</h2>
           <FAQ items={faqs} />
+        </div>
+      </section>
+
+
+      {/* SEO Content */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="prose prose-lg max-w-none">
+            <h2 className="text-3xl font-bold text-gray-900 mb-6">Allt om fallskyddsnät – Komplett guide</h2>
+            
+            <div className="grid md:grid-cols-2 gap-12">
+              <div className="space-y-6 text-gray-600">
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Vad är fallskyddsnät?</h3>
+                  <p>
+                    Fallskyddsnät är en avgörande säkerhetsåtgärd inom bygg- och industrisektorn. Som ett 
+                    kollektivt fallskydd skyddar näten arbetare från allvarliga skador vid fall från höjd, 
+                    utan att kräva särskild utbildning eller kompetens hos användaren. Detta skiljer 
+                    fallskyddsnät från personlig fallskyddsutrustning som kräver certifierad utbildning.
+                  </p>
+                  <p className="mt-3">
+                    Arbetsmiljöverket rekommenderar kollektiva skydd som fallskyddsnät framför individuella 
+                    lösningar. Ett korrekt monterat fallskyddsnät skyddar alla på arbetsplatsen automatiskt, 
+                    vilket minskar risken för mänskliga misstag.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Certifiering enligt EN1263-1</h3>
+                  <p>
+                    Alla våra fallskyddsnät är certifierade enligt europastandarden EN1263-1 och EN1263-2. 
+                    Detta innebär att näten är testade för att klara fall av 100 kg från 7 meters höjd. 
+                    Certifieringen garanterar att nätet uppfyller de strikta säkerhetskrav som gäller 
+                    inom EU och Sverige.
+                  </p>
+                  <p className="mt-3">
+                    EN1263-1 specificerar krav på material, hållfasthet och maskstorlek. EN1263-2 reglerar 
+                    installation, användning och besiktning. Tillsammans säkerställer dessa standarder 
+                    att fallskyddsnät ger maximalt skydd på arbetsplatsen.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Fallskyddsnät för byggställning</h3>
+                  <p>
+                    På byggarbetsplatser används fallskyddsnät ofta i kombination med byggställningar. 
+                    Nätet monteras horisontellt under arbetsytan eller vertikalt som sidoskydd. Detta 
+                    ger ett komplett skydd mot både personfall och fallande föremål.
+                  </p>
+                  <p className="mt-3">
+                    För byggställningar rekommenderar vi nät med 45mm maska som fångar upp både personer 
+                    och mindre verktyg. Vid takarbeten och fasadrenovering är fallskyddsnät ofta det 
+                    mest kostnadseffektiva och säkraste alternativet.
+                  </p>
+                </div>
+              </div>
+
+              <div className="space-y-6 text-gray-600">
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Olika typer av fallskyddsnät</h3>
+                  <p>
+                    Vi erbjuder fallskyddsnät i flera utföranden beroende på användningsområde:
+                  </p>
+                  <ul className="mt-3 space-y-2">
+                    <li><strong>45mm maska (5mm garn)</strong> – Fångar personer och mindre föremål. Mest populära valet för bygg.</li>
+                    <li><strong>60mm maska (5mm garn)</strong> – Balans mellan skydd och luftgenomsläpp.</li>
+                    <li><strong>100mm maska (5mm garn)</strong> – Främst personfallskydd, ekonomiskt alternativ.</li>
+                    <li><strong>Flamskyddsbehandlat</strong> – För miljöer med brandrisk som industri och svetsning.</li>
+                  </ul>
+                  <p className="mt-3">
+                    Alla varianter finns i färgerna svart, röd, vit, blå och grön för att matcha 
+                    arbetsplatsens behov eller företagets profilfärger.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Pris på fallskyddsnät</h3>
+                  <p>
+                    Priset på fallskyddsnät varierar beroende på maskstorlek, garndiameter och eventuell 
+                    specialbehandling. Våra priser börjar från 66 kr/kvm för 100mm maska upp till 
+                    200 kr/kvm för flamskyddsbehandlade nät.
+                  </p>
+                  <p className="mt-3">
+                    Vid större beställningar erbjuder vi volymrabatt. Använd priskalkylatorn ovan för 
+                    att få ett exakt budgetpris baserat på dina mått. Vi offererar alltid fast pris 
+                    inklusive tillbehör och kan inkludera installation om så önskas.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Installation och SAFT-tjänsten</h3>
+                  <p>
+                    Industrinät erbjuder professionell installation av fallskyddsnät i hela Sverige. 
+                    Våra montörer har gedigen erfarenhet och följer Arbetsmiljöverkets rekommendationer. 
+                    Installation kostar från 600 kr/timme plus eventuell resa.
+                  </p>
+                  <p className="mt-3">
+                    Vi erbjuder även SAFT (Safety Net as a Service) – en komplett tjänst som inkluderar 
+                    installation, regelbunden besiktning enligt EN1263-2, certifiering, demontering och 
+                    återbruk. SAFT finns tillgängligt i Stockholm, Göteborg, Malmö och flera andra städer.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Köpa fallskyddsnät – så går det till</h3>
+                  <p>
+                    Att köpa fallskyddsnät från Industrinät är enkelt. Använd priskalkylatorn för 
+                    budgetpris, eller kontakta oss för en skräddarsydd offert. Vi hjälper dig välja 
+                    rätt produkt, beräkna mängd och planera eventuell installation.
+                  </p>
+                  <p className="mt-3">
+                    Leveranstid för standardprodukter är 3-5 arbetsdagar. Specialtillverkade nät i 
+                    unika mått eller färger tar normalt 2-3 veckor. Vid brådskande behov – kontakta 
+                    oss så löser vi expressleverans.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

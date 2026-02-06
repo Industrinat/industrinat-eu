@@ -1,14 +1,15 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Sun, Percent, Ruler, Wrench, Goal, Circle, Dumbbell, Mountain, Phone, Flag } from 'lucide-react';
 import PriceCalculatorSport from '@/components/PriceCalculatorSport';
 import FAQ from '@/components/FAQ';
+import { generatePageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = generatePageMetadata({
   title: 'Sportnät - Golf, Fotboll, Multisport | Industrinät',
   description: 'Sportnät för golfrange, fotbollsplaner, idrottshallar och lekplatser. Bollstoppsnät, rangenät och klätternät. Installation i hela Sverige.',
-};
+  path: '/sportnat',
+});
 
 const faqs = [
   { 

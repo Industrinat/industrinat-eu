@@ -1,14 +1,15 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Factory, Shield, MessageCircle, Wrench, HardHat, Package, Bird, Goal, Phone, FileText, Award } from 'lucide-react';
 import PriceCalculatorSkyddsnat from '@/components/PriceCalculatorSkyddsnat';
 import FAQ from '@/components/FAQ';
+import { generatePageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = generatePageMetadata({
   title: 'Skyddsnät - Köp direkt från tillverkare | Industrinät',
   description: 'Skyddsnät för alla behov: fallskydd, fågelskydd, sportnät och industri. EU-tillverkade nät med upp till 10 års garanti. Fri rådgivning och installation.',
-};
+  path: '/skyddsnat',
+});
 
 const faqs = [
   { 
@@ -178,9 +179,98 @@ export default function SkyddsnatPage() {
           <PriceCalculatorSkyddsnat />
         </div>
       </section>
-
-      {/* Branscher */}
+     {/* SEO Content Section */}
       <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="prose prose-lg max-w-none">
+            <h2 className="text-3xl font-bold text-gray-900 mb-6">Om skyddsnät – Komplett guide</h2>
+            
+            <div className="grid md:grid-cols-2 gap-12">
+              <div className="space-y-6 text-gray-600">
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Vad är skyddsnät?</h3>
+                  <p>
+                    Skyddsnät är säkerhetsprodukter tillverkade av högkvalitativ polypropen som används för att 
+                    skydda människor, djur och material inom en rad olika områden. Från byggarbetsplatser och 
+                    industrimiljöer till sportanläggningar och lantbruk – skyddsnät fyller en viktig funktion 
+                    i att förebygga olyckor och skador.
+                  </p>
+                  <p className="mt-3">
+                    Industrinät Nordiska Nätlösningar är specialister på skyddsnät och erbjuder ett komplett 
+                    sortiment av EU-tillverkade produkter med upp till 10 års garanti. Alla våra nät produceras 
+                    i Spanien enligt europeiska kvalitetsstandarder.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Olika typer av skyddsnät</h3>
+                  <p>
+                    <strong>Fallskyddsnät</strong> är certifierade enligt EN1263-1 och används för att skydda 
+                    personer som arbetar på höjd. Dessa nät är konstruerade för att fånga upp en person vid 
+                    fall och absorbera kraften på ett säkert sätt. Fallskyddsnät är ett krav på många 
+                    byggarbetsplatser enligt Arbetsmiljöverkets föreskrifter.
+                  </p>
+                  <p className="mt-3">
+                    <strong>Nät för fallande föremål</strong> skyddar mot verktyg, byggmaterial och andra 
+                    föremål som kan falla från höjd. De placeras ofta under arbetsplattformar eller runt 
+                    byggställningar för att skydda både arbetare och förbipasserande.
+                  </p>
+                  <p className="mt-3">
+                    <strong>Fågelskyddsnät</strong> håller fåglar borta från fasader, tak, balkonger och 
+                    produktionsmiljöer. De är diskreta, hållbara och hindrar fåglar från att bygga bon 
+                    eller orsaka skador utan att skada djuren.
+                  </p>
+                </div>
+              </div>
+
+              <div className="space-y-6 text-gray-600">
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Varför välja EU-tillverkade skyddsnät?</h3>
+                  <p>
+                    Skyddsnät tillverkade inom EU uppfyller strikta kvalitets- och säkerhetskrav. Våra produkter 
+                    är certifierade enligt OEKO-TEX 100, vilket garanterar att de är fria från skadliga ämnen. 
+                    De uppfyller även REACH-förordningen som reglerar kemikalier inom EU.
+                  </p>
+                  <p className="mt-3">
+                    Polypropen är det optimala materialet för skyddsnät eftersom det absorberar och fördelar 
+                    kraft vid fall, tål UV-strålning och väder i nordiskt klimat, är lätt att hantera och 
+                    installera, samt går att återvinna efter användning.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Hur väljer man rätt skyddsnät?</h3>
+                  <p>
+                    Valet av skyddsnät beror på användningsområdet och de specifika kraven för ditt projekt. 
+                    Börja med att identifiera behovet – ska nätet skydda personer från fall, stoppa föremål, 
+                    eller hålla fåglar borta? För personskydd krävs EN1263-1-certifierade nät.
+                  </p>
+                  <p className="mt-3">
+                    Mät ytan noggrant och ange längd och bredd för att beräkna kvadratmeter. Välj maskstorlek 
+                    baserat på vad nätet ska stoppa – mindre maskor ger bättre skydd mot små föremål. 
+                    Använd vår priskalkylator ovan för att snabbt få ett budgetpris.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Installation och service</h3>
+                  <p>
+                    Korrekt installation är avgörande för att skyddsnätet ska fungera som avsett. Vi erbjuder 
+                    professionell installation i hela Sverige med priser från 600 kr per timme. Våra montörer 
+                    har gedigen erfarenhet och säkerställer att nätet monteras enligt gällande föreskrifter.
+                  </p>
+                  <p className="mt-3">
+                    Vi erbjuder även SAFT (Safety Net as a Service) – en komplett tjänst som inkluderar 
+                    installation, besiktning, certifiering, demontering och återbruk av skyddsnät.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* Branscher */}
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-gray-900 mb-8">Vi levererar till</h2>
           <div className="flex flex-wrap gap-3">

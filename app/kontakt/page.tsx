@@ -1,11 +1,12 @@
-import type { Metadata } from 'next';
 import { Phone, Mail, MapPin, Clock, MessageCircle, Send } from 'lucide-react';
 import ContactForm from '@/components/ContactForm';
+import { generatePageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = generatePageMetadata({
   title: 'Kontakt - Industrinät Nordiska Nätlösningar',
   description: 'Kontakta Industrinät för skyddsnät, fallskyddsnät, installation och rådgivning. Ring 031-788 45 12 eller fyll i formuläret.',
-};
+  path: '/kontakt',
+});
 
 export default function KontaktPage() {
   return (

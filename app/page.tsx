@@ -1,7 +1,14 @@
+import { generatePageMetadata } from '@/lib/metadata';
 import HeroKenBurns from '@/components/HeroKenBurns';
 import Link from 'next/link';
 import { Shield, Wrench, MessageCircle, ClipboardCheck } from 'lucide-react';
 import NewsSection from '@/components/NewsSection';
+
+export const metadata = generatePageMetadata({
+  title: 'Industrinät - Skyddsnät & Fallskyddsnät som räddar liv',
+  description: 'Köp skyddsnät direkt från tillverkare. Fallskyddsnät, fågelskyddsnät, sportnät och industrinät. EU-tillverkat med upp till 10 års garanti. Fri rådgivning och installation i hela Sverige.',
+  path: '/',
+});
 
 const services = [
   {

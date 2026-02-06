@@ -1,11 +1,12 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Phone, Shield, Target, Users, CheckCircle, MessageCircle } from 'lucide-react';
+import { generatePageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = generatePageMetadata({
   title: 'Fri rådgivning - Industrinät Nordiska Nätlösningar',
   description: 'Kostnadsfri rådgivning inom skyddsnät och fallskydd. Våra experter hjälper dig välja rätt lösning för ditt projekt.',
-};
+  path: '/friradgivning',
+});
 
 const benefits = [
   {

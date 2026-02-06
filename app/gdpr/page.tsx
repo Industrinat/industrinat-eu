@@ -1,9 +1,10 @@
-import type { Metadata } from 'next';
+import { generatePageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = generatePageMetadata({
   title: 'Integritetspolicy - Industrinät',
   description: 'Information om hur Industrinät Nordiska Nätlösningar AB behandlar dina personuppgifter enligt GDPR.',
-};
+  path: '/gdpr',
+});
 
 export default function GDPRPage() {
   return (

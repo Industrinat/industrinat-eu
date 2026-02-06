@@ -1,11 +1,12 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import { MapPin, Users, Award, Wrench, Phone, ArrowRight, CheckCircle } from 'lucide-react';
+import { generatePageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = generatePageMetadata({
   title: 'Tjänster - Installation, Rådgivning & Besiktning | Industrinät',
   description: 'Kompletta tjänster för skyddsnät: installation enligt EN1263-2, fri rådgivning, SAFT-besiktning, utbildning. Hela Sverige.',
-};
+  path: '/tjanster',
+});
 
 const services = [
   {

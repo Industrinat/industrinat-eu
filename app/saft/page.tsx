@@ -1,11 +1,12 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Phone, Shield, ClipboardCheck, Recycle, Award, ArrowRight } from 'lucide-react';
+import { generatePageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = generatePageMetadata({
   title: 'SAFT - Safety Net as a Service - Industrinät',
   description: 'Komplett helhetslösning för skyddsnät: installation, besiktning, certifiering, demontering och återbruk.',
-};
+  path: '/saft',
+});
 
 const services = [
   {

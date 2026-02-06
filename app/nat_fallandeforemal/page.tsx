@@ -1,14 +1,15 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Ruler, Award, Layers, Factory, FileText, Phone, Shield, HardHat } from 'lucide-react';
 import PriceCalculatorFallande from '@/components/PriceCalculatorFallande';
 import FAQ from '@/components/FAQ';
+import { generatePageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = generatePageMetadata({
   title: 'Nät för fallande föremål - Industrinät',
   description: 'Skyddsnät för fallande föremål. Från lättare verktyg till tunga betongblock. Måttanpassat, testat och certifierat. Installation i hela Sverige.',
-};
+  path: '/nat_fallandeforemal',
+});
 
 const datasheets = [
   { name: 'Datablad PPM 2mm 20mm', url: '/dokument/datablad-ppm-2mm-20mm.pdf' },

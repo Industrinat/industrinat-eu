@@ -3,6 +3,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { getNews, formatDate } from '@/lib/api';
 import { Calendar, ArrowLeft } from 'lucide-react';
+import { generatePageMetadata } from '@/lib/metadata';
+
+export const metadata = generatePageMetadata({
+  title: 'Aktuellt - Nyheter från Industrinät',
+  description: 'Senaste nytt om skyddsnät, fallskydd, projekt och branschnyheter från Industrinät.',
+  path: '/aktuellt',
+});
 
 export const revalidate = 60; // ISR - uppdatera var 60:e sekund
 
@@ -65,7 +72,91 @@ export default async function AktuelltPage() {
               </Link>
             ))}
           </div>
-        )}
+       )}
+
+        {/* Äldre inlägg */}
+        <div className="mt-16 pt-12 border-t border-gray-200">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Äldre inlägg</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <Link
+              href="/boter-for-bristande-fallskydd"
+              className="group bg-gray-50 rounded-lg p-6 hover:shadow-lg transition-all"
+            >
+              <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-orange-500 transition-colors">
+                Böter för bristande fallskydd
+              </h3>
+              <p className="text-sm text-gray-600 mb-3">
+                Fler böter utdöms för bristande fallskydd. Läs om aktuella fall och konsekvenser.
+              </p>
+              <span className="text-orange-500 text-sm font-semibold">Läs mer →</span>
+            </Link>
+
+            <Link
+              href="/anvander-ni-ratt-typ-av-tillbehor"
+              className="group bg-gray-50 rounded-lg p-6 hover:shadow-lg transition-all"
+            >
+              <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-orange-500 transition-colors">
+                Använder ni rätt typ av tillbehör?
+              </h3>
+              <p className="text-sm text-gray-600 mb-3">
+                Rätt tillbehör är avgörande för säker installation av skyddsnät.
+              </p>
+              <span className="text-orange-500 text-sm font-semibold">Läs mer →</span>
+            </Link>
+
+            <Link
+              href="/fallande-foremal-en-allvarlig-risk-som-kraver-ratt-skydd"
+              className="group bg-gray-50 rounded-lg p-6 hover:shadow-lg transition-all"
+            >
+              <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-orange-500 transition-colors">
+                Fallande föremål – en allvarlig risk
+              </h3>
+              <p className="text-sm text-gray-600 mb-3">
+                En av de vanligaste riskerna på arbetsplatser och i offentliga miljöer.
+              </p>
+              <span className="text-orange-500 text-sm font-semibold">Läs mer →</span>
+            </Link>
+
+            <Link
+              href="/fallskyddsnat-pa-for-golf"
+              className="group bg-gray-50 rounded-lg p-6 hover:shadow-lg transition-all"
+            >
+              <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-orange-500 transition-colors">
+                Fallskyddsnät för golf range
+              </h3>
+              <p className="text-sm text-gray-600 mb-3">
+                Höjdbaserad standard för golfhallar och driving ranges.
+              </p>
+              <span className="text-orange-500 text-sm font-semibold">Läs mer →</span>
+            </Link>
+
+            <Link
+              href="/sakerhet-borjar-dar-risken-slutar-synas-2"
+              className="group bg-gray-50 rounded-lg p-6 hover:shadow-lg transition-all"
+            >
+              <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-orange-500 transition-colors">
+                Säkerhet börjar där risken slutar synas
+              </h3>
+              <p className="text-sm text-gray-600 mb-3">
+                Installation av skydd mot fallande föremål i offentliga miljöer.
+              </p>
+              <span className="text-orange-500 text-sm font-semibold">Läs mer →</span>
+            </Link>
+
+            <Link
+              href="/tips-pa-forbattrad-sakerhet-med-skyddsnat"
+              className="group bg-gray-50 rounded-lg p-6 hover:shadow-lg transition-all"
+            >
+              <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-orange-500 transition-colors">
+                Tips på förbättrad säkerhet
+              </h3>
+              <p className="text-sm text-gray-600 mb-3">
+                Så väljer du rätt skyddsnät för industri, bygg och sportanläggningar.
+              </p>
+              <span className="text-orange-500 text-sm font-semibold">Läs mer →</span>
+            </Link>
+          </div>
+        </div>
       </div>
     </main>
   );

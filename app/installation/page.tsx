@@ -1,12 +1,13 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Award, MapPin, Users, Wrench, Phone, CheckCircle } from 'lucide-react';
+import { generatePageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = generatePageMetadata({
   title: 'Installation av Skyddsnät - EN1263-2 certifierad | Industrinät',
   description: 'Professionell installation av skyddsnät enligt EN1263-2. Fallskyddsnät, fågelskyddsnät, fackverksmaster. 600-795 kr/tim. Hela Sverige.',
-};
+  path: '/installation',
+});
 
 const services = [
   {

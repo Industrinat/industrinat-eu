@@ -1,12 +1,13 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Factory, Award, Settings, Feather, Phone, ArrowRight } from 'lucide-react';
+import { generatePageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = generatePageMetadata({
   title: 'Plattformsstege - Säkra stegar med plattform | Industrinät',
   description: 'Plattformsstegar i aluminium för industri, bygg och lager. EU-tillverkade av Esla, ISO 9001-certifierade. Konfigurerbar höjd 410-5000mm. Från 7 500 kr.',
-};
+  path: '/plattformsstege',
+});
 
 const products = [
   {

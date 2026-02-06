@@ -27,9 +27,35 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: 'Nyhet hittades inte' };
   }
 
+  const imageUrl = item.image 
+    ? (item.image.startsWith('http') ? item.image : `https://industrinat.se${item.image}`)
+    : 'https://industrinat.se/images/hero/IMG_11121.jpg';
+
   return {
     title: `${item.title} | Industrinät`,
     description: item.excerpt || '',
+    openGraph: {
+      title: item.title,
+      description: item.excerpt || '',
+      url: `https://industrinat.se/aktuellt/${slug}`,
+      siteName: 'Industrinät',
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: item.title,
+        },
+      ],
+      locale: 'sv_SE',
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: item.title,
+      description: item.excerpt || '',
+      images: [imageUrl],
+    },
   };
 }
 

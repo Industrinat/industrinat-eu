@@ -59,27 +59,42 @@ export default function PriceCalculatorFagel() {
   const discountAmount = isRollProduct ? 0 : Math.round(subtotal * discount);
   const totalPrice = Math.round(subtotal - discountAmount + (isRollProduct ? 0 : startFee));
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Offertförfrågan fågelskyddsnät:', { 
-      ...formData, 
-      gdprConsent, 
-      marketingConsent, 
-      birdType: selectedBirdType,
-      product: product?.name, 
-      dimensions: isRollProduct ? `${quantity} rullar` : `${length} × ${width} m`, 
-      quantity, 
-      totalArea: isRollProduct ? '-' : totalArea, 
-      totalPrice,
-      wantInstallation,
-      installationDetails,
-      files: files ? Array.from(files).map(f => f.name) : [],
-    });
-    setSubmitted(true);
-  };
+ const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  
+  try {
+    const formDataToSend = new FormData();
+    formDataToSend.append('name', formData.name);
+    formDataToSend.append('email', formData.email);
+    formDataToSend.append('phone', formData.phone || '');
+    formDataToSend.append('company', formData.company || '');
+    formDataToSend.append('product', product?.name || 'Fågelskyddsnät');
+    formDataToSend.append('width', String(width));
+    formDataToSend.append('height', String(length));
+    formDataToSend.append('area', isRollProduct ? '-' : String(totalArea));
+    formDataToSend.append('price', String(totalPrice));
+    formDataToSend.append('installation', wantInstallation ? 'Ja' : 'Nej');
+    formDataToSend.append('message', installationDetails.additionalInfo || '');
+    formDataToSend.append('source', 'fagel-calculator');
 
-  return (
-    <div className="bg-gray-50 rounded-lg p-6 max-w-2xl">
+    const response = await fetch('/api/quote', {
+      method: 'POST',
+      body: formDataToSend,
+    });
+
+    if (response.ok) {
+      setSubmitted(true);
+    } else {
+      alert('Kunde inte skicka förfrågan. Försök igen.');
+    }
+  } catch (error) {
+    console.error('Fel:', error);
+    alert('Något gick fel. Försök igen.');
+  }
+};
+
+return (
+  <div className="bg-gray-50 rounded-lg p-6 max-w-2xl">
       {/* Fågeltyp filter */}
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-2">Vilken typ av fågel? (valfritt)</label>

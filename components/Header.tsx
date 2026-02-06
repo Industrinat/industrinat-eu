@@ -66,7 +66,7 @@ export default function Header() {
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <Link href="/" className="flex-shrink-0">
-            <Logo variant="dark" className="h-12 w-auto" />
+            <Logo variant="dark" className="h-13 w-auto" />
           </Link>
 
           {/* Desktop Navigation */}

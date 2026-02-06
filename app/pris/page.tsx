@@ -1,11 +1,12 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Phone, Calculator, Wrench, Package, CheckCircle } from 'lucide-react';
+import { generatePageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = generatePageMetadata({
   title: 'Priser - Industrinät Nordiska Nätlösningar',
   description: 'Prisuppgifter för skyddsnät och installation. Kontakta oss för offert anpassad efter ert projekt.',
-};
+  path: '/pris',
+});
 
 const priceCategories = [
   {

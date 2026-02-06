@@ -1,14 +1,15 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Sun, Grip, Scissors, Award, Bird, Phone, Shield, Building2, Factory } from 'lucide-react';
 import PriceCalculatorFagel from '@/components/PriceCalculatorFagel';
 import FAQ from '@/components/FAQ';
+import { generatePageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = generatePageMetadata({
   title: 'Fågelskyddsnät - Upp till 10 års garanti | Industrinät',
   description: 'Starka fågelskyddsnät för inomhus och utomhus. UV-behandlade, knutfria nät med upp till 10 års garanti. Installation i hela Sverige.',
-};
+  path: '/fagelskyddsnat',
+});
 
 const faqs = [
   { 
@@ -33,6 +34,25 @@ const faqs = [
   },
 ];
 
+const videoSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'VideoObject',
+  name: 'Fågelskyddsnät installation - Industrinät',
+  description: 'Se hur fågelskyddsnät installeras professionellt. UV-behandlade, knutfria nät med upp till 10 års garanti.',
+  thumbnailUrl: 'https://industrinat.se/images/fagelskyddsnat/fagelskyddsnat_hero.png',
+  uploadDate: '2021-07-15T00:00:00+02:00',
+  contentUrl: 'https://vimeo.com/579280648',
+  embedUrl: 'https://player.vimeo.com/video/579280648?h=30a4831fa9',
+  publisher: {
+    '@type': 'Organization',
+    name: 'Industrinät Nordiska Nätlösningar',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://industrinat.se/industrinat_logo_new.png',
+    },
+  },
+};
+
 const features = [
   { title: 'UV-behandlat', description: '10+ års livslängd utomhus', icon: Sun },
   { title: 'Knutfritt', description: 'Skonsamt material, ingen trasselrisk', icon: Grip },
@@ -54,6 +74,10 @@ const environments = [
 export default function FagelskyddsnatPage() {
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(videoSchema) }}
+      />
       {/* Hero - Ljus */}
       <section className="bg-gray-50 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -253,7 +277,104 @@ export default function FagelskyddsnatPage() {
           <FAQ items={faqs} />
         </div>
       </section>
+      {/* SEO Content */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="prose prose-lg max-w-none">
+            <h2 className="text-3xl font-bold text-gray-900 mb-6">Allt om fågelskyddsnät – Komplett guide</h2>
+            
+            <div className="grid md:grid-cols-2 gap-12">
+              <div className="space-y-6 text-gray-600">
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Varför behövs fågelskyddsnät?</h3>
+                  <p>
+                    Fåglar kan orsaka betydande skador och hygieniska problem på byggnader, i industrimiljöer 
+                    och vid odlingar. Spillning korroderar fasader, fåglar kan sprida sjukdomar, och bon i 
+                    ventilation skapar brandrisk. Fågelskyddsnät är den mest effektiva och humana lösningen 
+                    för att permanent hålla fåglar borta utan att skada dem.
+                  </p>
+                  <p className="mt-3">
+                    Till skillnad från piggar, gel eller skrämselutrustning ger fågelskyddsnät ett permanent 
+                    och pålitligt skydd. Nätet skapar en fysisk barriär som förhindrar fåglar från att landa, 
+                    bygga bon eller komma åt skyddade områden.
+                  </p>
+                </div>
 
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Fågelskyddsnät för fasad och balkong</h3>
+                  <p>
+                    Bostadsrättsföreningar och fastighetsbolag använder fågelskyddsnät för att skydda 
+                    fasader, balkonger och innergårdar från duvor och andra fåglar. Svarta nät är 
+                    populärast eftersom de smälter in mot de flesta bakgrunder och blir nästan osynliga 
+                    på avstånd.
+                  </p>
+                  <p className="mt-3">
+                    För balkonger rekommenderar vi 20mm maska som stoppar även småfåglar som sparvar. 
+                    Nätet monteras diskret med varmgalvaniserade infästningar och kan anpassas efter 
+                    balkongstorlek och form.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Fågelskyddsnät för industri</h3>
+                  <p>
+                    Inom industri och livsmedelsproduktion är fågelskydd ett krav för att uppfylla 
+                    hygienföreskrifter. Våra nät används i lager, produktionshallar, hamnar och vid 
+                    lastbryggor. För livsmedelsmiljöer erbjuder vi A4 syrafast infästning som klarar 
+                    högtryckstvättning och aggressiva rengöringsmedel.
+                  </p>
+                </div>
+              </div>
+
+              <div className="space-y-6 text-gray-600">
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Välja rätt maskstorlek</h3>
+                  <p>
+                    Maskstorleken avgör vilka fågelarter nätet stoppar:
+                  </p>
+                  <ul className="mt-3 space-y-2">
+                    <li><strong>50mm maska</strong> – Stoppar stora fåglar som mås, kaja och kråka.</li>
+                    <li><strong>40mm maska</strong> – Stoppar duvor och medelstora fåglar.</li>
+                    <li><strong>30mm maska</strong> – Mellanalternativ, stoppar de flesta fåglar.</li>
+                    <li><strong>20mm maska</strong> – Stoppar alla fåglar inklusive sparv och stare.</li>
+                  </ul>
+                  <p className="mt-3">
+                    Är du osäker? Välj 20mm maska – det ger komplett skydd mot alla fågeltyper och 
+                    kommer med upp till 10 års garanti.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Pris på fågelskyddsnät</h3>
+                  <p>
+                    Priset på fågelskyddsnät varierar beroende på maskstorlek och garndiameter. 
+                    Våra priser börjar från cirka 40 kr/kvm för 50mm maska upp till 100 kr/kvm 
+                    för premiumkvalitet med 20mm maska och 10 års garanti.
+                  </p>
+                  <p className="mt-3">
+                    Använd priskalkylatorn ovan för exakt budgetpris. Vid större ytor erbjuder vi 
+                    volymrabatt. Installation tillkommer från 599 kr/timme i storstadsregioner.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Installation av fågelskyddsnät</h3>
+                  <p>
+                    Industrinät erbjuder professionell installation av fågelskyddsnät i Stockholm, 
+                    Göteborg, Malmö och andra storstadsregioner. Våra montörer har erfarenhet av 
+                    både enkla balkongjobb och komplexa industriinstallationer.
+                  </p>
+                  <p className="mt-3">
+                    Vi använder kvalitetsinfästningar i varmgalvaniserat, elgalvaniserat eller 
+                    A4 syrafast beroende på miljön. Alla installationer kommer med garanti och 
+                    vi erbjuder även serviceavtal för regelbunden inspektion.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       {/* CTA */}
       <section className="py-16 bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

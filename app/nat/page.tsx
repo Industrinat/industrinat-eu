@@ -1,12 +1,12 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Shield, HardHat, Bird, Goal, Grid3X3, Layers, Factory, Award, Phone, ArrowRight } from 'lucide-react';
+import { generatePageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = generatePageMetadata({
   title: 'Nät - Skyddsnät, Fallskyddsnät & Industrinät | Industrinät Sverige',
   description: 'Köp nät direkt från tillverkare. Skyddsnät, fallskyddsnät, fågelskyddsnät, sportnät och industrinät. EU-tillverkat med upp till 10 års garanti. Fri rådgivning.',
-  keywords: ['nät', 'skyddsnät', 'fallskyddsnät', 'industrinät', 'fågelskyddsnät', 'sportnät', 'säkerhetsnät', 'byggnät'],
-};
+  path: '/nat',
+});
 
 const categories = [
   {

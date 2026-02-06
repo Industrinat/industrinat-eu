@@ -1,11 +1,12 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import { MapPin, Ruler, Building2, Quote } from 'lucide-react';
+import { generatePageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = generatePageMetadata({
   title: 'Referenser - Industrinät Nordiska Nätlösningar',
   description: 'Se våra genomförda projekt inom skyddsnät och installation. Referenser från nöjda kunder i hela Norden.',
-};
+  path: '/referenser',
+});
 
 const projects = [
   {

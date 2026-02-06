@@ -4,6 +4,19 @@
 const FLOWEN_API = 'https://www.flowen.eu/api/public/news'
 const TEAM_SLUG = 'industrinat-ab'
 
+// Konvertera full URL till relativ sökväg för lokala bilder
+function toLocalImagePath(imageUrl: string | null): string | null {
+  if (!imageUrl) return null;
+  
+  // Om bilden är från industrinat.se, gör om till relativ sökväg
+  const industrinatPrefix = 'https://industrinat.se';
+  if (imageUrl.startsWith(industrinatPrefix)) {
+    return imageUrl.replace(industrinatPrefix, '');
+  }
+  
+  return imageUrl;
+}
+
 export interface NewsItem {
   id: string
   slug: string
@@ -31,7 +44,12 @@ export async function getNews(limit?: number): Promise<NewsItem[]> {
       return []
     }
     
-    return res.json()
+    const news = await res.json()
+    // Konvertera bildURLs till lokala sökvägar
+    return news.map((item: NewsItem) => ({
+      ...item,
+      image: toLocalImagePath(item.image)
+    }))
   } catch (error) {
     console.error('Error fetching news:', error)
     return []
@@ -50,7 +68,12 @@ export async function getNewsItem(slug: string): Promise<NewsItem | null> {
       return null
     }
     
-    return res.json()
+    const item = await res.json()
+    // Konvertera bildURL till lokal sökväg
+    return {
+      ...item,
+      image: toLocalImagePath(item.image)
+    }
   } catch (error) {
     console.error('Error fetching news item:', error)
     return null

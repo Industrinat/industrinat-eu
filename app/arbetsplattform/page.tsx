@@ -1,12 +1,13 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Factory, Award, Settings, Shield, Phone, Building2, Wrench, Package, Leaf, ArrowRight } from 'lucide-react';
+import { generatePageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = generatePageMetadata({
   title: 'Arbetsplattformar & Stegar med Plattform | Industrinät',
   description: 'Arbetsplattformar och stegar med plattform från Esla. EU-tillverkade, ISO 9001-certifierade. Konfigurera plattformshöjd från 410mm till 5000mm.',
-};
+  path: '/arbetsplattform',
+});
 
 const products = [
   {

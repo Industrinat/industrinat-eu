@@ -1,12 +1,13 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Move, Lock, Award, Feather, Phone, Factory, Building2, Warehouse, Wrench, Sparkles, Home, ArrowRight, Shield, Zap, Settings } from 'lucide-react';
+import { generatePageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = generatePageMetadata({
   title: 'Mobila Arbetsplattformar - Flexibla lösningar på hjul | Industrinät',
   description: 'Mobila arbetsplattformar i aluminium för industri, lager och bygg. Flyttbara på hjul, EU-tillverkade av Esla. ISO 9001-certifierade. Från 7 500 kr.',
-};
+  path: '/mobila-arbetsplattformar',
+});
 
 const features = [
   { title: 'Mobila på hjul', description: 'Enkelt att flytta mellan arbetsområden', icon: Move },

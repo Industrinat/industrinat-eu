@@ -1,12 +1,13 @@
-import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Shield, Leaf, CheckCircle, Handshake } from 'lucide-react';
+import { generatePageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = generatePageMetadata({
   title: 'Om oss - Industrinät Nordiska Nätlösningar',
   description: 'Industrinät är ett familjeföretag i Västsverige som levererar skyddsnät, fallskyddsnät och installation till hela Norden. Certifierade enligt EN1263-1, REACH och OEKO-TEX.',
-};
+  path: '/omoss',
+});
 
 const stats = [
   { number: '10+', label: 'År i branschen', description: 'Sedan 2013' },

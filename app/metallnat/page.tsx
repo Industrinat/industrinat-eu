@@ -1,13 +1,13 @@
-import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Eye, Shield, Maximize2, DollarSign, Building2, Fence, Grid3X3, Mountain, Phone } from 'lucide-react';
+import { generatePageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = generatePageMetadata({
   title: 'Metallnät & Stålvajernät för arkitektur | Industrinät',
   description: 'Stålvajernät och metallnät för arkitektur, sidoskydd och fallskydd. Transparenta lösningar för broar, balkonger, trapphus och fasader. Konkurrenskraftiga priser.',
-  keywords: ['stålvajernät', 'metallnät', 'webnet', 'sidoskydd', 'arkitektur nät', 'balkongnät', 'trappnät', 'fasadnät'],
-};
+  path: '/metallnat',
+});
 
 const applications = [
   { title: 'Balkonger & terrasser', description: 'Transparent sidoskydd som inte blockerar utsikt eller ljus' },

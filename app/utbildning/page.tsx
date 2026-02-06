@@ -1,11 +1,12 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Phone, Award, BookOpen, ArrowUpCircle, Users, Shield, CheckCircle, GraduationCap, Monitor, MapPin, Clock } from 'lucide-react';
+import { generatePageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = generatePageMetadata({
   title: 'Kompetens & Utbildning - Industrinät Nordiska Nätlösningar',
   description: 'Certifierade montörer och utbildning i EN1263-1/2 för fallskyddsnät. Workshop för fallande människor eller fallande föremål.',
-};
+  path: '/utbildning',
+});
 
 const teamCertifications = [
   {

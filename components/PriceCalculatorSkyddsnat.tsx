@@ -101,21 +101,36 @@ export default function PriceCalculatorSkyddsnat() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Offertförfrågan skyddsnät:', { 
-      ...formData, 
-      gdprConsent, 
-      marketingConsent, 
-      category: selectedCategory,
-      product: product?.name, 
-      dimensions: `${length} × ${width} m`, 
-      quantity, 
-      totalArea, 
-      totalPrice: isQuoteOnly ? 'Offert krävs' : totalPrice,
-      wantInstallation,
-      installationDetails,
-      files: files ? Array.from(files).map(f => f.name) : [],
-    });
-    setSubmitted(true);
+    
+    try {
+      const formDataToSend = new FormData();
+      formDataToSend.append('name', formData.name);
+      formDataToSend.append('email', formData.email);
+      formDataToSend.append('phone', formData.phone || '');
+      formDataToSend.append('company', formData.company || '');
+      formDataToSend.append('product', product?.name || 'Skyddsnät');
+      formDataToSend.append('width', String(width));
+      formDataToSend.append('height', String(length));
+      formDataToSend.append('area', String(totalArea));
+      formDataToSend.append('price', isQuoteOnly ? 'Offert krävs' : String(totalPrice));
+      formDataToSend.append('installation', wantInstallation ? 'Ja' : 'Nej');
+      formDataToSend.append('message', installationDetails.additionalInfo || '');
+      formDataToSend.append('source', 'skyddsnat-calculator');
+
+      const response = await fetch('/api/quote', {
+        method: 'POST',
+        body: formDataToSend,
+      });
+
+      if (response.ok) {
+        setSubmitted(true);
+      } else {
+        alert('Kunde inte skicka förfrågan. Försök igen.');
+      }
+    } catch (error) {
+      console.error('Fel:', error);
+      alert('Något gick fel. Försök igen.');
+    }
   };
 
   const getCategoryColor = (catId: string) => {

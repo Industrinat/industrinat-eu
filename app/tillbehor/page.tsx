@@ -1,13 +1,13 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Package, Factory, FileText, Anchor, Link2, CircleDot, Unlink, Grip, Wrench, Phone, CheckCircle, Box, Hammer } from 'lucide-react';
+import { generatePageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = generatePageMetadata({
   title: 'Tillbehör & Infästning för Skyddsnät | Industrinät',
   description: 'Paketerade tillbehörslösningar för skyddsnät. Infästning för betong, trä och metall. Egen import, konkurrenskraftiga priser. Installationsskiss med cc-mått ingår.',
-  keywords: ['tillbehör skyddsnät', 'infästning', 'karbinhakar', 'vantskruv', 'vajer', 'rep', 'expanderbult', 'lyftögla'],
-};
+  path: '/tillbehor',
+});
 
 const categories = [
   {

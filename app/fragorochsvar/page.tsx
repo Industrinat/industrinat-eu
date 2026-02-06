@@ -1,3 +1,11 @@
+import { generatePageMetadata } from '@/lib/metadata';
+
+export const metadata = generatePageMetadata({
+  title: 'Frågor och Svar - Industrinät',
+  description: 'Vanliga frågor och svar om skyddsnät, fallskyddsnät, installation och certifieringar.',
+  path: '/fragorochsvar',
+});
+
 export default function Page() {
   return (
     <main className="min-h-screen p-8">
@@ -6,3 +14,4 @@ export default function Page() {
     </main>
   );
 }
+

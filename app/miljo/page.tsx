@@ -1,11 +1,12 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Leaf, Shield, Award, Recycle, CheckCircle, AlertTriangle } from 'lucide-react';
+import { generatePageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = generatePageMetadata({
   title: 'Miljö & Hållbarhet - Industrinät Nordiska Nätlösningar',
   description: 'Vårt miljöarbete och HSE-policy. REACH och OEKO-TEX certifierade produkter från europeiska tillverkare.',
-};
+  path: '/miljo',
+});
 
 const hsePolicy = [
   'Arbetsmiljöarbete är en naturlig del av verksamheten',

@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /*?_rsc=
+Disallow: /*_rsc=
 
 Sitemap: https://industrinat.se/sitemap.xml

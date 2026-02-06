@@ -1,11 +1,12 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Calendar, ArrowRight, Mail } from 'lucide-react';
+import { generatePageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = generatePageMetadata({
   title: 'Nyheter - Industrinät Nordiska Nätlösningar',
   description: 'Senaste nyheterna från Industrinät. Projekt, produkter och branschnyheter.',
-};
+  path: '/nyheter',
+});
 
 const news = [
   {

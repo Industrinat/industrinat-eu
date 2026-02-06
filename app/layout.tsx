@@ -5,6 +5,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CookieConsent from "@/components/CookieConsent";
+import ChatWidget from '@/components/ChatWidget'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,6 +20,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Industrinät - Fallskyddsnät som räddar liv",
   description: "Skyddsnät, fallskyddsnät, installation och rådgivning för industrin. Certifierade enligt EN1263-1. Levererar till hela Norden.",
+  icons: {
+    icon: '/favicon.png',
+    apple: '/favicon.png',
+  },
 };
 
 export default function RootLayout({
@@ -65,6 +70,7 @@ export default function RootLayout({
         </div>
         <Footer />
         <CookieConsent />
+        <ChatWidget />
       </body>
     </html>
   );

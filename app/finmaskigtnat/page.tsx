@@ -1,15 +1,15 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { DollarSign, Flame, Factory, Ruler, Wind, Shield, Sparkles, CircleDot, Phone } from 'lucide-react';
 import PriceCalculatorFinmaskigt from '@/components/PriceCalculatorFinmaskigt';
 import FAQ from '@/components/FAQ';
+import { generatePageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = generatePageMetadata({
   title: 'Finmaskiga nät & Dammskyddsnät - Ställningsinbyggnad | Industrinät',
   description: 'Dammskyddsnät och finmaskiga nät för ställningsinbyggnad. Kvalitetsnät från 17 kr/kvm. Flamskyddsklassat EDITIS B1 tillgängligt. EU-tillverkat.',
-  keywords: ['finmaskigt nät', 'dammskyddsnät', 'ställningsnät', 'ställningsväv', 'EDITIS', 'flamskyddsnät', 'byggnät', 'ställningsinbyggnad'],
-};
+  path: '/finmaskigtnat',
+});
 
 const faqs = [
   { 

@@ -1,11 +1,12 @@
-import type { Metadata } from 'next';
 import Link from 'next/link';
 import { BookOpen, FileText, Shield, Award, HelpCircle, ArrowRight } from 'lucide-react';
+import { generatePageMetadata } from '@/lib/metadata';
 
-export const metadata: Metadata = {
+export const metadata = generatePageMetadata({
   title: 'Kunskapsbank - Industrinät Nordiska Nätlösningar',
   description: 'Lär dig mer om skyddsnät, certifieringar och säkerhetsstandarder. Guider och resurser för säkrare arbetsplatser.',
-};
+  path: '/kunskapsbank',
+});
 
 const guides = [
   {

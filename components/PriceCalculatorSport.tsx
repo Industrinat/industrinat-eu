@@ -79,26 +79,41 @@ export default function PriceCalculatorSport() {
   const totalPrice = Math.round(subtotal - discountAmount + startFee);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Offertförfrågan sportnät:', { 
-      ...formData, 
-      gdprConsent, 
-      marketingConsent, 
-      category: selectedCategory,
-      product: product?.name, 
-      dimensions: `${length} × ${width} m`, 
-      quantity, 
-      totalArea, 
-      totalPrice: isQuoteOnly ? 'Offert krävs' : totalPrice,
-      wantInstallation,
-      installationDetails,
-      files: files ? Array.from(files).map(f => f.name) : [],
-    });
-    setSubmitted(true);
-  };
+  e.preventDefault();
+  
+  try {
+    const formDataToSend = new FormData();
+    formDataToSend.append('name', formData.name);
+    formDataToSend.append('email', formData.email);
+    formDataToSend.append('phone', formData.phone || '');
+    formDataToSend.append('company', formData.company || '');
+    formDataToSend.append('product', product?.name || 'Sportnät');
+    formDataToSend.append('width', String(width));
+    formDataToSend.append('height', String(length));
+    formDataToSend.append('area', String(totalArea));
+    formDataToSend.append('price', isQuoteOnly ? 'Offert krävs' : String(totalPrice));
+    formDataToSend.append('installation', wantInstallation ? 'Ja' : 'Nej');
+    formDataToSend.append('message', installationDetails.additionalInfo || '');
+    formDataToSend.append('source', 'sport-calculator');
 
-  return (
-    <div className="bg-gray-50 rounded-lg p-6 max-w-2xl">
+    const response = await fetch('/api/quote', {
+      method: 'POST',
+      body: formDataToSend,
+    });
+
+    if (response.ok) {
+      setSubmitted(true);
+    } else {
+      alert('Kunde inte skicka förfrågan. Försök igen.');
+    }
+  } catch (error) {
+    console.error('Fel:', error);
+    alert('Något gick fel. Försök igen.');
+  }
+};
+
+return (
+  <div className="bg-gray-50 rounded-lg p-6 max-w-2xl">
       {/* Kategori filter */}
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-2">Välj sport / användning</label>
