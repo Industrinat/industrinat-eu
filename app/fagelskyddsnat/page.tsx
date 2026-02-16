@@ -1,3 +1,4 @@
+import DocumentDownloads from "@/components/DocumentDownloads";
 import Link from 'next/link';
 import Image from 'next/image';
 import { Sun, Grip, Scissors, Award, Bird, Phone, Shield, Building2, Factory } from 'lucide-react';
@@ -375,6 +376,9 @@ export default function FagelskyddsnatPage() {
           </div>
         </div>
       </section>
+      <DocumentDownloads documents={[
+        { title: "Datablad PPM 2mm 20 maska", description: "Teknisk specifikation för fågelskyddsnät med 20mm maska", url: "/wp-content/uploads/2024/02/DATABLAD-PPM-2-mm-20-maska.pdf", fileSize: "93 KB" },
+      ]} />
       {/* CTA */}
       <section className="py-16 bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

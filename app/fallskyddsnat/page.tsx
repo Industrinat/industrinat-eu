@@ -1,3 +1,4 @@
+import DocumentDownloads from "@/components/DocumentDownloads";
 import Link from 'next/link';
 import Image from 'next/image';
 import { Shield, Award, Ruler, Leaf, FileText, Phone } from 'lucide-react';
@@ -266,6 +267,10 @@ export default function FallskyddsnatPage() {
         </div>
       </section>
 
+      <DocumentDownloads documents={[
+        { title: "Datablad I1510", description: "Teknisk specifikation för fallskyddsnät EN 1263-1", url: "/wp-content/uploads/2024/02/Datablad-I1510-1.pdf", fileSize: "109 KB" },
+        { title: "Datablad PPM 5 M45-PP", description: "Specifikation för fallskyddsnät i polypropen", url: "/wp-content/uploads/2024/02/DATABLAD-PPM-5-M45-PP.pdf", fileSize: "94 KB" },
+      ]} />
       {/* CTA */}
       <section className="py-16 bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
