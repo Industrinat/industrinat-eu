@@ -1,0 +1,31 @@
+name: Build and Deploy Industrinat
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        run: npx next build
+      - name: Package build
+        run: tar czf build.tar.gz .next public package.json package-lock.json next.config.ts
+      - name: Deploy to server
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          ssh-keyscan -H 162.19.252.99 >> ~/.ssh/known_hosts
+          scp -i ~/.ssh/id_deploy build.tar.gz ubuntu@162.19.252.99:/tmp/industrinat-build.tar.gz
+          ssh -i ~/.ssh/id_deploy ubuntu@162.19.252.99 'cd /var/www/industrinat && pm2 stop industrinat && cp -r .next .next.backup-$(date +%Y%m%d_%H%M%S) && tar xzf /tmp/industrinat-build.tar.gz && npm ci --production && pm2 start industrinat && rm /tmp/industrinat-build.tar.gz && ls -dt .next.backup-* | tail -n +4 | xargs rm -rf'
