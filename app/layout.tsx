@@ -54,6 +54,13 @@ export default function RootLayout({
           'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
           })(window,document,'script','dataLayer','GTM-M2KLC5L');`}
         </Script>
+        <Script
+          id="umami"
+          defer
+          src="https://analytics.flowen.eu/script.js"
+          data-website-id="79a48d12-b6dd-47b2-8d4e-1b9599de457b"
+          strategy="afterInteractive"
+        />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <noscript>
