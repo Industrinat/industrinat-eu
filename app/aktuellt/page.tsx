@@ -46,11 +46,12 @@ export default async function AktuelltPage() {
                 <div className="relative h-48 bg-gray-200">
                   {item.image ? (
                     <Image
-                      src={item.image}
-                      alt={item.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
+  src={item.image}
+  alt={item.title}
+  fill
+  unoptimized
+  className="object-cover group-hover:scale-105 transition-transform duration-300"
+/>
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center text-gray-400">
                       Bild saknas
