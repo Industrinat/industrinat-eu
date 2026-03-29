@@ -50,7 +50,7 @@ export default async function AktuelltPage() {
   alt={item.title}
   fill
   unoptimized
-  className="object-cover group-hover:scale-105 transition-transform duration-300"
+  className="object-cover object-top group-hover:scale-105 transition-transform duration-300"
 />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center text-gray-400">
