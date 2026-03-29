@@ -123,13 +123,18 @@ export default async function NewsItemPage({ params }: Props) {
                   </li>
                 );
               }
-              if (paragraph.trim()) {
-                return (
-                  <p key={index} className="text-gray-600 mb-4">
-                    {paragraph}
-                  </p>
-                );
-              }
+             if (paragraph.trim()) {
+  if (paragraph.trim().startsWith('<')) {
+    return (
+      <div key={index} className="mb-4" dangerouslySetInnerHTML={{ __html: paragraph }} />
+    );
+  }
+  return (
+    <p key={index} className="text-gray-600 mb-4">
+      {paragraph}
+    </p>
+  );
+}
               return null;
             })}
           </div>
