@@ -18,6 +18,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://industrinat.se"),
+  alternates: {
+    canonical: "/",
+  },
   title: "Industrinät - Fallskyddsnät som räddar liv",
   description: "Skyddsnät, fallskyddsnät, installation och rådgivning för industrin. Certifierade enligt EN1263-1. Levererar till hela Norden.",
   icons: {
