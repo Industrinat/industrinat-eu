@@ -232,10 +232,6 @@ export default function FallandeforemalPage() {
         </div>
       </section>
 
-      <DocumentDownloads documents={[
-        { title: "Datablad PPM 4 M40", description: "Teknisk specifikation för nät mot fallande föremål", url: "/wp-content/uploads/2024/02/DATABLAD-PPM-4-M40.pdf", fileSize: "315 KB" },
-        { title: "Safety Nets Wind Mill", description: "Testprotokoll för nät mot fallande föremål", url: "/wp-content/uploads/2024/02/Safety-netsWind-mill.pdf", fileSize: "2.4 MB" },
-      ]} />
       {/* CTA */}
       <section className="py-16 bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
