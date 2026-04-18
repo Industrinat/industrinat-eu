@@ -3,11 +3,11 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 const images = [
-  '/images/hero/IMG_11121.jpg',
-  '/images/hero/IMG_3700.jpeg',
-  '/images/hero/IMG_2302.jpeg',
-  '/images/hero/IMG_2879.jpeg',
-  '/images/hero/IMG_3363.jpeg',
+  '/images/hero/IMG_11121.webp',
+  '/images/hero/IMG_3700.webp',
+  '/images/hero/IMG_2302.webp',
+  '/images/hero/IMG_2879.webp',
+  '/images/hero/IMG_3363.webp',
 ];
 
 const animations = [
