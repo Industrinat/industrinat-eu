@@ -1,6 +1,5 @@
 // app/aktuellt/page.tsx
 import Link from 'next/link';
-import Image from 'next/image';
 import { getNews, formatDate } from '@/lib/api';
 import { Calendar, ArrowLeft } from 'lucide-react';
 import { generatePageMetadata } from '@/lib/metadata';
@@ -43,15 +42,14 @@ export default async function AktuelltPage() {
                 href={`/aktuellt/${item.slug}`}
                 className="group bg-gray-50 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
               >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <div className="relative h-48 bg-gray-200">
                   {item.image ? (
-                    <Image
-  src={item.image}
-  alt={item.title}
-  fill
-  unoptimized
-  className="object-cover object-top group-hover:scale-105 transition-transform duration-300"
-/>
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                    />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center text-gray-400">
                       Bild saknas

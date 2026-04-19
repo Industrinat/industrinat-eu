@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { getNews, formatDate } from '@/lib/api';
 import { Calendar, ArrowRight, Linkedin, Facebook } from 'lucide-react';
 
@@ -29,13 +28,13 @@ export default async function NewsSection() {
                 className="group bg-gray-50 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
               >
                 <Link href={`/aktuellt/${item.slug}`}>
+                 {/* eslint-disable-next-line @next/next/no-img-element */}
                   <div className="relative h-48 bg-gray-200">
                     {item.image ? (
-                      <Image
+                      <img
                         src={item.image}
                         alt={item.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     ) : (
                       <div className="absolute inset-0 flex items-center justify-center text-gray-400">

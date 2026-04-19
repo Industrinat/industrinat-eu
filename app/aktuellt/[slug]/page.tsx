@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getNews, getNewsItem, formatDate } from '@/lib/api';
 import { Calendar, ArrowLeft, Share2 } from 'lucide-react';
+import BlogContentRenderer from '@/components/BlogContentRenderer'
 
 export const revalidate = 60;
 
@@ -107,37 +108,10 @@ export default async function NewsItemPage({ params }: Props) {
 
       <section className="py-12 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="prose prose-lg max-w-none">
-            {item.content.split('\n').map((paragraph, index) => {
-              if (paragraph.startsWith('## ')) {
-                return (
-                  <h2 key={index} className="text-2xl font-bold text-gray-900 mt-8 mb-4">
-                    {paragraph.replace('## ', '')}
-                  </h2>
-                );
-              }
-              if (paragraph.startsWith('- ')) {
-                return (
-                  <li key={index} className="text-gray-600 ml-4">
-                    {paragraph.replace('- ', '')}
-                  </li>
-                );
-              }
-             if (paragraph.trim()) {
-  if (paragraph.trim().startsWith('<')) {
-    return (
-      <div key={index} className="mb-4" dangerouslySetInnerHTML={{ __html: paragraph }} />
-    );
-  }
-  return (
-    <p key={index} className="text-gray-600 mb-4">
-      {paragraph}
-    </p>
-  );
-}
-              return null;
-            })}
-          </div>
+       <BlogContentRenderer 
+            content={item.content} 
+            videos={Array.isArray(item.videos) ? item.videos : []} 
+          />
 
           <div className="mt-12 pt-8 border-t border-gray-200">
             <div className="flex items-center gap-4">

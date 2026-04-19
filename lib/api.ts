@@ -27,6 +27,7 @@ export interface NewsItem {
   published: boolean
   publishedAt: string | null
   createdAt: string
+  videos?: Array<{ url: string; title?: string }> | null
 }
 
 export async function getNews(limit?: number): Promise<NewsItem[]> {
