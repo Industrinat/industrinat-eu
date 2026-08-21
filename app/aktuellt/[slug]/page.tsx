@@ -73,7 +73,7 @@ export default async function NewsItemPage({ params }: Props) {
 
   return (
     <main>
-      <section className="relative h-[400px] bg-gray-900">
+      <section className="relative h-[500px] bg-gray-900">
         {item.image && (
           <Image
             src={item.image}
