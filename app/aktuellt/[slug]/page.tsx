@@ -79,7 +79,7 @@ export default async function NewsItemPage({ params }: Props) {
             src={item.image}
             alt={item.title}
             fill
-            className="object-cover opacity-50"
+            className="object-cover object-center opacity-50"
             priority
           />
         )}
@@ -157,7 +157,7 @@ export default async function NewsItemPage({ params }: Props) {
                         src={related.image}
                         alt={related.title}
                         fill
-                        className="object-cover"
+                        className="object-cover object-center"
                       />
                     )}
                   </div>
