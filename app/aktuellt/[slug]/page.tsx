@@ -79,24 +79,24 @@ export default async function NewsItemPage({ params }: Props) {
             src={item.image}
             alt={item.title}
             fill
-            className="object-cover object-center opacity-50"
+            className="object-cover object-center"
             priority
           />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-8">
+        <div className="absolute inset-0 hidden" />
+        <div className="absolute bottom-0 left-0 right-0 p-8 bg-white/90 backdrop-blur-sm">
           <div className="max-w-4xl mx-auto">
             <Link
               href="/aktuellt"
-              className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-4 transition-colors"
+              className="inline-flex items-center gap-2 text-gray-700 hover:text-gray-900 mb-4 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               Tillbaka till nyheter
             </Link>
-            <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               {item.title}
             </h1>
-            <div className="flex items-center gap-4 text-white/80">
+            <div className="flex items-center gap-4 text-gray-600">
               <span className="flex items-center gap-2">
                 <Calendar className="w-4 h-4" />
                 {formatDate(item.publishedAt)}
