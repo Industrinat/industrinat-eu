@@ -48,7 +48,7 @@ export default async function AktuelltPage() {
                     <img
                       src={item.image}
                       alt={item.title}
-                      className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                      className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
                     />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center text-gray-400">
