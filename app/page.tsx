@@ -79,7 +79,7 @@ const testimonials = [
 const stats = [
   { value: '10+', label: 'År i branschen' },
   { value: '500+', label: 'Genomförda projekt' },
-  { value: '3000+', label: 'Nöjda kunder' },
+  { value: '500+', label: 'Företagskunder' },
 ];
 
 export default function Home() {
@@ -99,9 +99,12 @@ export default function Home() {
               specialanpassade nätlösningar till företag i hela Norden. Vi erbjuder allt från rådgivning 
               och installation till besiktning och utbildning.
             </p>
-            <p className="text-gray-600">
+                        <p className="text-gray-600 mb-4">
               Våra produkter är certifierade enligt <strong>EN1263-1</strong> och tillverkade inom EU 
               med fokus på säkerhet, kvalitet och hållbarhet.
+            </p>
+            <p className="text-gray-600">
+              Vi har levererat fallskyddsnät till <strong>LKAB</strong>, <strong>FOI</strong>, <strong>Skanska</strong> och <strong>Scania</strong>.
             </p>
           </div>
         </div>
