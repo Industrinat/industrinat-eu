@@ -17,6 +17,8 @@ jobs:
         run: npm ci
       - name: Build
         run: npx next build
+        env:
+          NEXT_PUBLIC_GTM_ID: ${{ vars.NEXT_PUBLIC_GTM_ID }}
       - name: Package build
         run: tar czf build.tar.gz .next public package.json package-lock.json next.config.ts
       - name: Deploy to server

@@ -7,8 +7,18 @@ import { X, Cookie, ChevronDown, ChevronUp } from 'lucide-react'
 
 declare global {
   interface Window {
-    dataLayer: Record<string, unknown>[]
+    dataLayer: unknown[]
+    gtag?: (...args: unknown[]) => void
   }
+}
+
+// Samma stub som GTM-snutten sätter, om bannern hinner före
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function gtag(..._args: unknown[]) {
+  window.dataLayer = window.dataLayer || []
+  // Consent Mode kräver arguments-objektet, inte en array
+  // eslint-disable-next-line prefer-rest-params
+  window.dataLayer.push(arguments)
 }
 
 interface CookiePreferences {
@@ -49,14 +59,15 @@ export default function CookieConsent() {
 const activateScripts = (prefs: CookiePreferences) => {
     if (typeof window === 'undefined') return
     
-    // Uppdatera GTM Consent Mode
-    window.dataLayer = window.dataLayer || []
-    window.dataLayer.push({
-      event: 'consent_update',
+    // Uppdatera GTM Consent Mode v2
+    const marketing = prefs.marketing ? 'granted' : 'denied'
+    ;(window.gtag ?? gtag)('consent', 'update', {
+      functionality_storage: 'granted',
+      security_storage: 'granted',
       analytics_storage: prefs.statistics ? 'granted' : 'denied',
-      ad_storage: prefs.marketing ? 'granted' : 'denied',
-      ad_user_data: prefs.marketing ? 'granted' : 'denied',
-      ad_personalization: prefs.marketing ? 'granted' : 'denied',
+      ad_storage: marketing,
+      ad_user_data: marketing,
+      ad_personalization: marketing,
     })
     
     console.log('🍪 Consent uppdaterat:', prefs)

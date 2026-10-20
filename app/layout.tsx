@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CookieConsent from "@/components/CookieConsent";
 import ChatWidget from '@/components/ChatWidget'
+import GoogleTagManager, { GtmNoScript } from "@/components/GoogleTagManager";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,6 +39,8 @@ export default function RootLayout({
   return (
     <html lang="sv">
       <head>
+        <GoogleTagManager />
+
         {/* Snitcher B2B visitor tracking (EU-hostad, Hilversum NL) */}
         <Script id="snitcher" strategy="afterInteractive">
           {`
@@ -55,6 +58,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <GtmNoScript />
         <Header />
         <div className="pt-20">
           {children}
