@@ -5,6 +5,7 @@ import { Shield, Award, Ruler, Leaf, FileText, Phone } from 'lucide-react';
 import PriceCalculator from '@/components/PriceCalculator';
 import FAQ from '@/components/FAQ';
 import { generatePageMetadata } from '@/lib/metadata';
+import { START_FEE, PRICE_NOTE, formatSek } from '@/lib/net-pricing';
 
 export const metadata = generatePageMetadata({
   title: 'Fallskyddsnät som räddar liv - Industrinät',
@@ -122,6 +123,9 @@ export default function FallskyddsnatPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-gray-900 mb-8">Priskalkylator</h2>
           <PriceCalculator products={products} />
+          <p className="text-sm text-gray-500 mt-4 max-w-2xl">
+            {PRICE_NOTE}
+          </p>
         </div>
       </section>
 
@@ -225,7 +229,8 @@ export default function FallskyddsnatPage() {
                   <p>
                     Priset på fallskyddsnät varierar beroende på maskstorlek, garndiameter och eventuell 
                     specialbehandling. Våra priser börjar från 66 kr/kvm för 100mm maska upp till 
-                    200 kr/kvm för flamskyddsbehandlade nät.
+                    200 kr/kvm för flamskyddsbehandlade nät, plus startkostnad{' '}
+                    {formatSek(START_FEE)} per beställning.
                   </p>
                   <p className="mt-3">
                     Vid större beställningar erbjuder vi volymrabatt. Använd priskalkylatorn ovan för 

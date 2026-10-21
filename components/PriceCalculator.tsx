@@ -2,6 +2,9 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import PriceSummary from '@/components/PriceSummary';
+// Startkostnad, volymrabatt och budgetpris är gemensamma för näten (lib/net-pricing.ts).
+import { START_FEE, budgetPrice, volumeDiscount } from '@/lib/net-pricing';
 
 interface Product {
   article: string;
@@ -15,7 +18,7 @@ interface PriceCalculatorProps {
   startFee?: number;
 }
 
-export default function PriceCalculator({ products, startFee = 400 }: PriceCalculatorProps) {
+export default function PriceCalculator({ products, startFee = START_FEE }: PriceCalculatorProps) {
   const [selectedProduct, setSelectedProduct] = useState(products[0]?.article || '');
   const [length, setLength] = useState<number>(0);
   const [width, setWidth] = useState<number>(0);
@@ -40,16 +43,8 @@ export default function PriceCalculator({ products, startFee = 400 }: PriceCalcu
   const area = length * width;
   const totalArea = Math.round(area * Math.max(1, quantity));
 
-  let discount = 0;
-  if (totalArea > 1000) {
-    discount = 0.13;
-  } else if (totalArea > 500) {
-    discount = 0.10;
-  }
-
-  const subtotal = totalArea * pricePerSqm;
-  const discountAmount = Math.round(subtotal * discount);
-  const totalPrice = Math.round(subtotal - discountAmount + startFee);
+  const discount = volumeDiscount(totalArea);
+  const totalPrice = budgetPrice({ area: totalArea, pricePerSqm, discountRate: discount, startFee }).total;
 
   const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
@@ -93,7 +88,9 @@ export default function PriceCalculator({ products, startFee = 400 }: PriceCalcu
             <label className="block text-sm font-medium text-gray-700 mb-1">Välj produkt</label>
             <select value={selectedProduct} onChange={(e) => setSelectedProduct(e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg">
               {products.map((p) => (
-                <option key={p.article} value={p.article}>{p.name}</option>
+                <option key={p.article} value={p.article}>
+                  {p.name} {p.price > 0 ? `- från ${p.price} kr/kvm` : ''}
+                </option>
               ))}
             </select>
           </div>
@@ -140,22 +137,9 @@ export default function PriceCalculator({ products, startFee = 400 }: PriceCalcu
         </div>
       </div>
 
-      <div className="border-t mt-6 pt-6">
-        <div className="flex justify-between items-center">
-          <div>
-            <span className="text-gray-600">Total area: </span>
-            <span className="font-medium">{totalArea.toLocaleString('sv-SE')} kvm</span>
-            {discount > 0 && (
-              <span className="ml-2 text-sm text-green-600">({Math.round(discount * 100)}% rabatt)</span>
-            )}
-          </div>
-          <div className="text-right">
-            <div className="text-sm text-gray-500">Budgetpris nät</div>
-            <div className="text-2xl font-bold text-gray-900">{totalPrice.toLocaleString('sv-SE')} kr</div>
-          </div>
-        </div>
-        <p className="text-xs text-gray-500 mt-3">Pris ex moms. Exakt pris i offert.</p>
-      </div>
+      {totalArea > 0 && (
+        <PriceSummary area={totalArea} discountRate={discount} startFee={startFee} total={totalPrice} />
+      )}
 
       {/* Installation */}
       <div className="border-t mt-6 pt-6">
