@@ -21,10 +21,6 @@
   <url><loc>https://industrinat.se/omoss</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
   <url><loc>https://industrinat.se/plattformsstege</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://industrinat.se/pris</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://industrinat.se/priskalkylator-fagelskyddsnat</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://industrinat.se/priskalkylator-fallandeforemal</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://industrinat.se/priskalkylator-fallskyddsnat-person</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://industrinat.se/priskalkylator-lattar-nat-sportnat</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://industrinat.se/referenser</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://industrinat.se/saft</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://industrinat.se/skyddsnat</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
