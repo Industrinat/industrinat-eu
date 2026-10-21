@@ -7,6 +7,7 @@ import PriceSummary from '@/components/PriceSummary';
 // (lib/net-pricing.ts). Golfnätens volympris från 1 000 kvm ersätter rabatten.
 // Klätternät dimensioneras individuellt och får bara offert.
 import { START_FEE, budgetPrice, volumeDiscount } from '@/lib/net-pricing';
+import { track } from '@/lib/analytics';
 
 const categories = [
   { id: '', name: 'Visa alla' },
@@ -96,6 +97,12 @@ export default function PriceCalculatorSport() {
     });
 
     if (response.ok) {
+      track('form_submit_kalkylator', {
+        calculator: 'sport',
+        product: product?.name || 'Sportnät',
+        area_sqm: totalArea,
+        budget_sek: isQuoteOnly ? undefined : totalPrice,
+      });
       setSubmitted(true);
     } else {
       alert('Kunde inte skicka förfrågan. Försök igen.');

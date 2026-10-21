@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { formatSek } from '@/lib/net-pricing';
+import { track } from '@/lib/analytics';
 
 interface Product {
   id: string;
@@ -173,6 +174,12 @@ export default function PriceCalculatorFinmaskigt() {
       });
 
       if (response.ok) {
+        track('form_submit_kalkylator', {
+          calculator: 'finmaskigt',
+          product: selectedProductData.name,
+          area_sqm: Number(area.toFixed(1)),
+          budget_sek: Math.round(totalPrice),
+        });
         setSubmitStatus('success');
         setSelectedProduct('');
         setWidth('');

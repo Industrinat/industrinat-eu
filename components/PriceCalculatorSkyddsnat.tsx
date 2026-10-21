@@ -6,6 +6,7 @@ import PriceSummary from '@/components/PriceSummary';
 // Startkostnad, volymrabatt och budgetpris är gemensamma för näten
 // (lib/net-pricing.ts). Golfnätens volympris från 1 000 kvm ersätter rabatten.
 import { START_FEE, budgetPrice, volumeDiscount } from '@/lib/net-pricing';
+import { track } from '@/lib/analytics';
 
 const categories = [
   { id: '', name: 'Visa alla' },
@@ -128,6 +129,12 @@ export default function PriceCalculatorSkyddsnat() {
       });
 
       if (response.ok) {
+        track('form_submit_kalkylator', {
+          calculator: 'skyddsnat',
+          product: product?.name || 'Skyddsnät',
+          area_sqm: isRollProduct ? undefined : totalArea,
+          budget_sek: isQuoteOnly ? undefined : totalPrice,
+        });
         setSubmitted(true);
       } else {
         alert('Kunde inte skicka förfrågan. Försök igen.');
