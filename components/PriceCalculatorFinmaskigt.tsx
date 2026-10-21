@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { formatSek } from '@/lib/net-pricing';
 
 interface Product {
   id: string;
@@ -136,7 +137,9 @@ export default function PriceCalculatorFinmaskigt() {
   const area = widthNum * heightNum;
   
   const netPrice = selectedProductData ? area * selectedProductData.pricePerSqm : 0;
-  const minOrder = 500;
+  // Minsta order för måttanpassat finmaskigt nät (beslut 2026-10-21). Ingen
+  // startkostnad här; minsta ordern ersätter den.
+  const minOrder = 1000;
   const totalPrice = Math.max(netPrice, minOrder);
   const belowMinimum = netPrice > 0 && netPrice < minOrder;
 
@@ -268,18 +271,18 @@ export default function PriceCalculatorFinmaskigt() {
                 </div>
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-gray-600">Pris ({selectedProductData?.pricePerSqm} kr/kvm):</span>
-                  <span className="font-medium">{netPrice.toFixed(0)} kr</span>
+                  <span className="font-medium">{formatSek(Math.round(netPrice))}</span>
                 </div>
                 {belowMinimum && (
                   <div className="flex justify-between items-center mb-2 text-amber-600">
                     <span>Minimiorder:</span>
-                    <span className="font-medium">{minOrder} kr</span>
+                    <span className="font-medium">{formatSek(minOrder)}</span>
                   </div>
                 )}
                 <div className="border-t border-gray-200 pt-2 mt-2">
                   <div className="flex justify-between items-center">
                     <span className="text-lg font-semibold text-gray-900">Budgetpris:</span>
-                    <span className="text-2xl font-bold text-orange-600">{totalPrice.toFixed(0)} kr</span>
+                    <span className="text-2xl font-bold text-orange-600">{formatSek(Math.round(totalPrice))}</span>
                   </div>
                   <p className="text-xs text-gray-500 mt-1">Exkl. moms. Frakt tillkommer.</p>
                 </div>

@@ -139,6 +139,9 @@ export default function FinmaskigtNatPage() {
             Räkna ut pris för måttanpassade nät eller välj bland våra lagerförda rullvaror.
           </p>
           <PriceCalculatorFinmaskigt />
+          <p className="text-sm text-gray-500 mt-4 max-w-2xl">
+            Budgetpris exkl. moms. Minsta order för måttanpassat nät 1 000 kr, frakt tillkommer. Större ytor: begär offert för volympris.
+          </p>
         </div>
       </section>
 
