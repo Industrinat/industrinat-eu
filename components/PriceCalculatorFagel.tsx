@@ -2,13 +2,10 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-
-/**
- * Startkostnad per beräkning (måttanpassning och kantsömnad), kr exkl. moms.
- * Läggs på allt utom rullprodukten (extruderat nät). Samma belopp står i
- * texterna på /fagelskyddsnat.
- */
-const START_FEE = 1000;
+import PriceSummary from '@/components/PriceSummary';
+// Startkostnaden och budgetpriset är gemensamma för näten (lib/net-pricing.ts).
+// Rullprodukten (extruderat nät) har ingen startkostnad.
+import { START_FEE, budgetPrice, volumeDiscount } from '@/lib/net-pricing';
 
 const products = [
   { article: 'Art.I1889', name: '3mm 50mm maska svart', price: 40, description: 'Prisvärt nät för mås, duva, kaja' },
@@ -54,16 +51,12 @@ export default function PriceCalculatorFagel() {
   const area = length * width;
   const totalArea = Math.round(area * Math.max(1, quantity));
 
-  let discount = 0;
-  if (totalArea > 1000) {
-    discount = 0.15;
-  } else if (totalArea > 500) {
-    discount = 0.10;
-  }
+  // Volymrabatt som för alla nät: 10 % över 500 kvm, 13 % över 1 000 kvm.
+  const discount = volumeDiscount(totalArea);
 
-  const subtotal = isRollProduct ? ((product as any)?.pricePerRoll || 2500) * quantity : totalArea * pricePerSqm;
-  const discountAmount = isRollProduct ? 0 : Math.round(subtotal * discount);
-  const totalPrice = Math.round(subtotal - discountAmount + (isRollProduct ? 0 : START_FEE));
+  const totalPrice = isRollProduct
+    ? ((product as any)?.pricePerRoll || 2500) * quantity
+    : budgetPrice({ area: totalArea, pricePerSqm, discountRate: discount }).total;
 
  const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
@@ -211,38 +204,18 @@ return (
 
       {/* Pris */}
       {selectedProduct && ((isRollProduct && quantity > 0) || totalArea > 0) && (
-        <div className="border-t mt-6 pt-6">
-          {!isRollProduct && (
-            <div className="flex justify-between items-center text-sm text-gray-600 mb-3">
-              <span>Startkostnad (måttanpassning och kantsömnad)</span>
-              <span>{START_FEE.toLocaleString('sv-SE')} kr</span>
-            </div>
-          )}
-          <div className="flex justify-between items-center">
-            <div>
-              {!isRollProduct && (
-                <>
-                  <span className="text-gray-600">Total area: </span>
-                  <span className="font-medium">{totalArea.toLocaleString('sv-SE')} kvm</span>
-                  {discount > 0 && (
-                    <span className="ml-2 text-sm text-green-600">({Math.round(discount * 100)}% rabatt)</span>
-                  )}
-                </>
-              )}
-            </div>
-            <div className="text-right">
-              <div className="text-sm text-gray-500">Budgetpris</div>
-              <div className="text-2xl font-bold text-gray-900">
-                {totalPrice.toLocaleString('sv-SE')} kr <span className="text-sm font-normal text-gray-500">exkl. moms</span>
-              </div>
-            </div>
-          </div>
+        <PriceSummary
+          area={isRollProduct ? undefined : totalArea}
+          discountRate={isRollProduct ? 0 : discount}
+          startFee={isRollProduct ? 0 : START_FEE}
+          total={totalPrice}
+        >
           <p className="text-xs text-gray-500 mt-3">
   {totalArea > 1000 && (product?.article === 'Art.I2002' || product?.article === 'Art.I2003') && (
     <span className="block text-green-600 mt-1">Över 1000 kvm - kontakta oss för specialpris!</span>
   )}
 </p>
-        </div>
+        </PriceSummary>
       )}
 
       {/* Installation */}
