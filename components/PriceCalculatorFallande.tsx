@@ -6,6 +6,7 @@ import PriceSummary from '@/components/PriceSummary';
 // Startkostnad, volymrabatt och budgetpris är gemensamma för näten
 // (lib/net-pricing.ts). Repnät dimensioneras individuellt och får bara offert.
 import { START_FEE, budgetPrice, volumeDiscount } from '@/lib/net-pricing';
+import { track } from '@/lib/analytics';
 
 const products = [
   { article: 'Art.I1885', name: '4mm 40mm maska', price: 80, category: 'light', description: 'Bra allround-nät för fallande föremål' },
@@ -90,6 +91,12 @@ const handleSubmit = async (e: React.FormEvent) => {
     });
 
     if (response.ok) {
+      track('form_submit_kalkylator', {
+        calculator: 'fallande',
+        product: product?.name || 'Fallande föremål',
+        area_sqm: totalArea,
+        budget_sek: isHeavyCategory ? undefined : totalPrice,
+      });
       setSubmitted(true);
     } else {
       alert('Kunde inte skicka förfrågan. Försök igen.');

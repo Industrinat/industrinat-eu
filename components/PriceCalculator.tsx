@@ -5,6 +5,7 @@ import Link from 'next/link';
 import PriceSummary from '@/components/PriceSummary';
 // Startkostnad, volymrabatt och budgetpris är gemensamma för näten (lib/net-pricing.ts).
 import { START_FEE, budgetPrice, volumeDiscount } from '@/lib/net-pricing';
+import { track } from '@/lib/analytics';
 
 interface Product {
   article: string;
@@ -70,6 +71,12 @@ export default function PriceCalculator({ products, startFee = START_FEE }: Pric
     });
 
     if (response.ok) {
+      track('form_submit_kalkylator', {
+        calculator: 'fallskydd',
+        product: product?.name || 'Fallskyddsnät',
+        area_sqm: totalArea,
+        budget_sek: totalPrice,
+      });
       setSubmitted(true);
     } else {
       alert('Kunde inte skicka förfrågan. Försök igen.');

@@ -15,7 +15,8 @@ type EventParams = {
     calculator: CalculatorId;
     product: string;
     area_sqm?: number;
-    budget_sek: number;
+    // Utelämnas för produkter som bara får offert
+    budget_sek?: number;
   };
   click_tel: { location: TelLocation };
 };
