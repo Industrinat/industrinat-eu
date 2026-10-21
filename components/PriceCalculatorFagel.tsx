@@ -3,6 +3,13 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
+/**
+ * Startkostnad per beräkning (måttanpassning och kantsömnad), kr exkl. moms.
+ * Läggs på allt utom rullprodukten (extruderat nät). Samma belopp står i
+ * texterna på /fagelskyddsnat.
+ */
+const START_FEE = 1000;
+
 const products = [
   { article: 'Art.I1889', name: '3mm 50mm maska svart', price: 40, description: 'Prisvärt nät för mås, duva, kaja' },
   { article: 'Art.I2002', name: '2mm 20mm maska svart', price: 50, description: 'För både småfågel och större fågel' },
@@ -46,7 +53,6 @@ export default function PriceCalculatorFagel() {
   const pricePerSqm = product?.price || 0;
   const area = length * width;
   const totalArea = Math.round(area * Math.max(1, quantity));
-  const startFee = 400;
 
   let discount = 0;
   if (totalArea > 1000) {
@@ -57,7 +63,7 @@ export default function PriceCalculatorFagel() {
 
   const subtotal = isRollProduct ? ((product as any)?.pricePerRoll || 2500) * quantity : totalArea * pricePerSqm;
   const discountAmount = isRollProduct ? 0 : Math.round(subtotal * discount);
-  const totalPrice = Math.round(subtotal - discountAmount + (isRollProduct ? 0 : startFee));
+  const totalPrice = Math.round(subtotal - discountAmount + (isRollProduct ? 0 : START_FEE));
 
  const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
@@ -140,7 +146,7 @@ return (
               <option value="">Välj...</option>
               {products.map((p) => (
                 <option key={p.article} value={p.article}>
-                  {p.name} {p.price > 0 ? `- ${p.price} kr/kvm` : (p as any).pricePerRoll ? `- ${(p as any).pricePerRoll} kr/rulle` : ''}
+                  {p.name} {p.price > 0 ? `- från ${p.price} kr/kvm` : (p as any).pricePerRoll ? `- från ${(p as any).pricePerRoll} kr/rulle` : ''}
                 </option>
               ))}
             </select>
@@ -206,6 +212,12 @@ return (
       {/* Pris */}
       {selectedProduct && ((isRollProduct && quantity > 0) || totalArea > 0) && (
         <div className="border-t mt-6 pt-6">
+          {!isRollProduct && (
+            <div className="flex justify-between items-center text-sm text-gray-600 mb-3">
+              <span>Startkostnad (måttanpassning och kantsömnad)</span>
+              <span>{START_FEE.toLocaleString('sv-SE')} kr</span>
+            </div>
+          )}
           <div className="flex justify-between items-center">
             <div>
               {!isRollProduct && (
@@ -220,11 +232,12 @@ return (
             </div>
             <div className="text-right">
               <div className="text-sm text-gray-500">Budgetpris</div>
-              <div className="text-2xl font-bold text-gray-900">{totalPrice.toLocaleString('sv-SE')} kr</div>
+              <div className="text-2xl font-bold text-gray-900">
+                {totalPrice.toLocaleString('sv-SE')} kr <span className="text-sm font-normal text-gray-500">exkl. moms</span>
+              </div>
             </div>
           </div>
           <p className="text-xs text-gray-500 mt-3">
-  Pris ex moms. Exakt pris i offert.
   {totalArea > 1000 && (product?.article === 'Art.I2002' || product?.article === 'Art.I2003') && (
     <span className="block text-green-600 mt-1">Över 1000 kvm - kontakta oss för specialpris!</span>
   )}
