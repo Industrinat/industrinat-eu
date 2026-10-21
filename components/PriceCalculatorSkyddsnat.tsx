@@ -28,11 +28,14 @@ const products = [
   { article: 'Art.G101', name: '2,9mm 20mm', price: 100, category: 'fallande', description: 'Finmaskigt, små delar' },
   
   // Fågelskydd
-  { article: 'Art.B1889', name: '3mm 50mm svart', price: 40, category: 'fagel', description: 'Stora fåglar (mås, duva)' },
-  { article: 'Art.B2002', name: '2mm 20mm svart', price: 50, category: 'fagel', description: 'Alla fågeltyper' },
-  { article: 'Art.B1599', name: '3mm 40mm', price: 80, category: 'fagel', description: 'Medelstora fåglar' },
+  { article: 'Art.B1889', name: '3mm 50mm svart', price: 50, category: 'fagel', description: 'Stora fåglar (mås, duva)' },
+  { article: 'Art.B2002', name: '2mm 20mm svart', price: 60, category: 'fagel', description: 'Alla fågeltyper' },
+  { article: 'Art.B1599', name: '3mm 40mm', price: 90, category: 'fagel', description: 'Medelstora fåglar' },
   { article: 'Art.BG1001', name: '2,9mm 20mm', price: 90, category: 'fagel', description: '10 års garanti, premium' },
   { article: 'Art.B1886_F', name: '4mm 50mm flamskydd', price: 100, category: 'fagel', description: 'Fågelskydd med flamskydd' },
+  { article: 'Art.B1886', name: '4mm 50mm', price: 80, category: 'fagel', description: 'Starkare garn, flera färger' },
+  { article: 'Art.B2003', name: '2,3mm 25mm', price: 55, category: 'fagel', description: 'Specialpris vid stora volymer' },
+  { article: 'Art.B2011', name: 'Extruderat nät 27x27mm (rulle)', price: 0, pricePerRoll: 2500, category: 'fagel', description: 'Hårdare plastnät, 1,5m bredd' },
   
   // Sport & Bollstopp
   { article: 'Art.S2001', name: '2mm 20mm golf', price: 80, priceVolume: 50, category: 'sport', description: 'Golfnät, rangenät' },
@@ -77,7 +80,11 @@ export default function PriceCalculatorSkyddsnat() {
     : products;
 
   const product = products.find((p) => p.article === selectedProduct);
-  const isQuoteOnly = product?.price === 0;
+  // Rullprodukter (extruderat nät) säljs per rulle: pris × antal, ingen
+  // startavgift och ingen rabatt, som i fågelkalkylatorn.
+  const pricePerRoll: number = (product as any)?.pricePerRoll || 0;
+  const isRollProduct = pricePerRoll > 0;
+  const isQuoteOnly = product?.price === 0 && !isRollProduct;
   const area = length * width;
   const totalArea = Math.round(area * Math.max(1, quantity));
   const startFee = 400;
@@ -97,7 +104,11 @@ export default function PriceCalculatorSkyddsnat() {
 
   const subtotal = totalArea * pricePerSqm;
   const discountAmount = Math.round(subtotal * discount);
-  const totalPrice = Math.round(subtotal - discountAmount + startFee);
+  const totalPrice = isRollProduct
+    ? pricePerRoll * Math.max(1, quantity)
+    : Math.round(subtotal - discountAmount + startFee);
+  // Priset och formuläret visas när det finns något att räkna på.
+  const hasInput = isRollProduct ? quantity > 0 : totalArea > 0;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -111,7 +122,7 @@ export default function PriceCalculatorSkyddsnat() {
       formDataToSend.append('product', product?.name || 'Skyddsnät');
       formDataToSend.append('width', String(width));
       formDataToSend.append('height', String(length));
-      formDataToSend.append('area', String(totalArea));
+      formDataToSend.append('area', isRollProduct ? '-' : String(totalArea));
       formDataToSend.append('price', isQuoteOnly ? 'Offert krävs' : String(totalPrice));
       formDataToSend.append('installation', wantInstallation ? 'Ja' : 'Nej');
       formDataToSend.append('message', installationDetails.additionalInfo || '');
@@ -179,7 +190,7 @@ export default function PriceCalculatorSkyddsnat() {
               <option value="">Välj produkt...</option>
               {filteredProducts.map((p) => (
                 <option key={p.article} value={p.article}>
-                  {p.name} {p.price > 0 ? `- ${p.price} kr/kvm` : '- Offert'}
+                  {p.name} {p.price > 0 ? `- ${p.price} kr/kvm` : (p as any).pricePerRoll ? `- ${(p as any).pricePerRoll} kr/rulle` : '- Offert'}
                 </option>
               ))}
             </select>
@@ -238,12 +249,18 @@ export default function PriceCalculatorSkyddsnat() {
       </div>
 
       {/* Pris */}
-      {selectedProduct && totalArea > 0 && (
+      {selectedProduct && hasInput && (
         <div className="border-t mt-6 pt-6">
           <div className="flex justify-between items-center">
             <div>
+              {isRollProduct ? (
+                <span className="font-medium">{Math.max(1, quantity)} rulle(r)</span>
+              ) : (
+                <>
               <span className="text-gray-600">Total area: </span>
               <span className="font-medium">{totalArea.toLocaleString('sv-SE')} kvm</span>
+                </>
+              )}
               {hasVolumePrice && (
                 <span className="ml-2 text-sm text-green-600">(Volympris aktivt!)</span>
               )}
@@ -265,7 +282,7 @@ export default function PriceCalculatorSkyddsnat() {
       )}
 
       {/* Installation */}
-      {selectedProduct && totalArea > 0 && (
+      {selectedProduct && hasInput && (
         <div className="border-t mt-6 pt-6">
           <label className="flex items-center gap-3 cursor-pointer">
             <input
@@ -414,7 +431,7 @@ export default function PriceCalculatorSkyddsnat() {
       )}
 
       {/* Skicka */}
-      {totalArea > 0 && (
+      {(totalArea > 0 || (isRollProduct && quantity > 0)) && (
         <div className="mt-6">
           <button
             onClick={() => setShowForm(!showForm)}

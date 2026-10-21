@@ -353,7 +353,7 @@ export default function FagelskyddsnatPage() {
                   <h3 className="text-xl font-semibold text-gray-900 mb-3">Pris på fågelskyddsnät</h3>
                   <p>
                     Priset på fågelskyddsnät varierar beroende på maskstorlek och garndiameter. 
-                    Våra priser börjar från cirka 40 kr/kvm för 50mm maska upp till 100 kr/kvm 
+                    Våra priser börjar från cirka 50 kr/kvm för 50mm maska upp till 100 kr/kvm 
                     för premiumkvalitet med 20mm maska och 10 års garanti, plus startkostnad{' '}
                     {formatSek(START_FEE)} per beställning.
                   </p>

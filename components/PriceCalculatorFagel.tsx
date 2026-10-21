@@ -8,10 +8,10 @@ import PriceSummary from '@/components/PriceSummary';
 import { START_FEE, budgetPrice, volumeDiscount } from '@/lib/net-pricing';
 
 const products = [
-  { article: 'Art.I1889', name: '3mm 50mm maska svart', price: 40, description: 'Prisvärt nät för mås, duva, kaja' },
-  { article: 'Art.I2002', name: '2mm 20mm maska svart', price: 50, description: 'För både småfågel och större fågel' },
-  { article: 'Art.1599_2', name: '3mm 40mm maska', price: 80, description: 'Tätare maska, svart eller grön' },
-  { article: 'Art.I1886', name: '4mm 50mm maska', price: 70, description: 'Starkare garn, flera färger' },
+  { article: 'Art.I1889', name: '3mm 50mm maska svart', price: 50, description: 'Prisvärt nät för mås, duva, kaja' },
+  { article: 'Art.I2002', name: '2mm 20mm maska svart', price: 60, description: 'För både småfågel och större fågel' },
+  { article: 'Art.1599_2', name: '3mm 40mm maska', price: 90, description: 'Tätare maska, svart eller grön' },
+  { article: 'Art.I1886', name: '4mm 50mm maska', price: 80, description: 'Starkare garn, flera färger' },
   { article: 'Art.I1886_F', name: '4mm 50mm maska flamskydd', price: 100, description: 'Flamskyddsbehandlad' },
   { article: 'Art.G1001', name: '2,9mm 20mm maska', price: 90, description: 'Extra starkt, upp till 10 års garanti' },
   { article: 'Art.I2011', name: 'Extruderat nät 27x27mm (rulle)', price: 0, pricePerRoll: 2500, description: 'Hårdare plastnät, 1,5m bredd' },
