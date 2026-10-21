@@ -4,6 +4,7 @@ import { Factory, Shield, MessageCircle, Wrench, HardHat, Package, Bird, Goal, P
 import PriceCalculatorSkyddsnat from '@/components/PriceCalculatorSkyddsnat';
 import FAQ from '@/components/FAQ';
 import { generatePageMetadata } from '@/lib/metadata';
+import { START_FEE, PRICE_NOTE, formatSek } from '@/lib/net-pricing';
 
 export const metadata = generatePageMetadata({
   title: 'Skyddsnät - Köp direkt från tillverkare | Industrinät',
@@ -26,7 +27,7 @@ const faqs = [
   },
   { 
     question: 'Vad kostar skyddsnät?', 
-    answer: 'Priset varierar beroende på typ och storlek. Enklare avgränsningsnät börjar från ca 40 kr/kvm, medan EN1263-1-klassade fallskyddsnät kostar från 66 kr/kvm. Använd vår priskalkylator för budgetpris.' 
+    answer: `Priset varierar beroende på typ och storlek. Enklare avgränsningsnät börjar från ca 40 kr/kvm, medan EN1263-1-klassade fallskyddsnät kostar från 66 kr/kvm, plus startkostnad ${formatSek(START_FEE)} per beställning. Använd vår priskalkylator för budgetpris.` 
   },
   { 
     question: 'Är era nät miljöcertifierade?', 
@@ -177,6 +178,9 @@ export default function SkyddsnatPage() {
             Rabatt vid större volymer.
           </p>
           <PriceCalculatorSkyddsnat />
+          <p className="text-sm text-gray-500 mt-4 max-w-2xl">
+            {PRICE_NOTE}
+          </p>
         </div>
       </section>
      {/* SEO Content Section */}

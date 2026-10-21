@@ -2,6 +2,10 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import PriceSummary from '@/components/PriceSummary';
+// Startkostnad, volymrabatt och budgetpris är gemensamma för näten
+// (lib/net-pricing.ts). Golfnätens volympris från 1 000 kvm ersätter rabatten.
+import { START_FEE, budgetPrice, volumeDiscount } from '@/lib/net-pricing';
 
 const categories = [
   { id: '', name: 'Visa alla' },
@@ -87,26 +91,16 @@ export default function PriceCalculatorSkyddsnat() {
   const isQuoteOnly = product?.price === 0 && !isRollProduct;
   const area = length * width;
   const totalArea = Math.round(area * Math.max(1, quantity));
-  const startFee = 400;
+  const startFee = isRollProduct ? 0 : START_FEE;
 
   // Volympris vid +1000 kvm
   const hasVolumePrice = (product as any)?.priceVolume && totalArea >= 1000;
   const pricePerSqm = hasVolumePrice ? (product as any).priceVolume : (product?.price || 0);
 
-  let discount = 0;
-  if (!hasVolumePrice) {
-    if (totalArea > 1000) {
-      discount = 0.13;
-    } else if (totalArea > 500) {
-      discount = 0.10;
-    }
-  }
-
-  const subtotal = totalArea * pricePerSqm;
-  const discountAmount = Math.round(subtotal * discount);
+  const discount = hasVolumePrice || isRollProduct ? 0 : volumeDiscount(totalArea);
   const totalPrice = isRollProduct
     ? pricePerRoll * Math.max(1, quantity)
-    : Math.round(subtotal - discountAmount + startFee);
+    : budgetPrice({ area: totalArea, pricePerSqm, discountRate: discount, startFee }).total;
   // Priset och formuläret visas när det finns något att räkna på.
   const hasInput = isRollProduct ? quantity > 0 : totalArea > 0;
 
@@ -190,7 +184,7 @@ export default function PriceCalculatorSkyddsnat() {
               <option value="">Välj produkt...</option>
               {filteredProducts.map((p) => (
                 <option key={p.article} value={p.article}>
-                  {p.name} {p.price > 0 ? `- ${p.price} kr/kvm` : (p as any).pricePerRoll ? `- ${(p as any).pricePerRoll} kr/rulle` : '- Offert'}
+                  {p.name} {p.price > 0 ? `- från ${p.price} kr/kvm` : (p as any).pricePerRoll ? `- från ${(p as any).pricePerRoll} kr/rulle` : '- Offert'}
                 </option>
               ))}
             </select>
@@ -249,37 +243,34 @@ export default function PriceCalculatorSkyddsnat() {
       </div>
 
       {/* Pris */}
-      {selectedProduct && hasInput && (
+      {selectedProduct && hasInput && (isQuoteOnly ? (
         <div className="border-t mt-6 pt-6">
           <div className="flex justify-between items-center">
             <div>
-              {isRollProduct ? (
-                <span className="font-medium">{Math.max(1, quantity)} rulle(r)</span>
-              ) : (
-                <>
               <span className="text-gray-600">Total area: </span>
               <span className="font-medium">{totalArea.toLocaleString('sv-SE')} kvm</span>
-                </>
-              )}
-              {hasVolumePrice && (
-                <span className="ml-2 text-sm text-green-600">(Volympris aktivt!)</span>
-              )}
-              {discount > 0 && (
-                <span className="ml-2 text-sm text-green-600">({Math.round(discount * 100)}% rabatt)</span>
-              )}
             </div>
             <div className="text-right">
               <div className="text-sm text-gray-500">Budgetpris</div>
-              {isQuoteOnly ? (
-                <div className="text-xl font-bold text-gray-900">Offert krävs</div>
-              ) : (
-                <div className="text-2xl font-bold text-gray-900">{totalPrice.toLocaleString('sv-SE')} kr</div>
-              )}
+              <div className="text-xl font-bold text-gray-900">Offert krävs</div>
             </div>
           </div>
-          <p className="text-xs text-gray-500 mt-3">Pris ex moms. Exakt pris i offert.</p>
         </div>
-      )}
+      ) : (
+        <PriceSummary
+          area={isRollProduct ? undefined : totalArea}
+          discountRate={discount}
+          startFee={startFee}
+          total={totalPrice}
+          note={
+            isRollProduct ? (
+              <span className="font-medium">{Math.max(1, quantity)} rulle(r)</span>
+            ) : hasVolumePrice ? (
+              <span className="ml-2 text-sm text-green-600">(Volympris aktivt!)</span>
+            ) : undefined
+          }
+        />
+      ))}
 
       {/* Installation */}
       {selectedProduct && hasInput && (

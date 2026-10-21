@@ -15,11 +15,13 @@ type Props = {
   startFee?: number;
   /** Budgetpriset i hela kronor, exkl. moms. */
   total: number;
+  /** Text till vänster efter ytan, t.ex. antal rullar eller "(Volympris aktivt!)". */
+  note?: ReactNode;
   /** Extra innehåll under priset, till exempel besked om specialpris. */
   children?: ReactNode;
 };
 
-export default function PriceSummary({ area, discountRate = 0, startFee = 0, total, children }: Props) {
+export default function PriceSummary({ area, discountRate = 0, startFee = 0, total, note, children }: Props) {
   return (
     <div className="border-t mt-6 pt-6">
       {startFee > 0 && (
@@ -39,6 +41,7 @@ export default function PriceSummary({ area, discountRate = 0, startFee = 0, tot
               )}
             </>
           )}
+          {note}
         </div>
         <div className="text-right">
           <div className="text-sm text-gray-500">Budgetpris</div>
