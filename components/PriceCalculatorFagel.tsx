@@ -6,6 +6,7 @@ import PriceSummary from '@/components/PriceSummary';
 // Startkostnaden och budgetpriset är gemensamma för näten (lib/net-pricing.ts).
 // Rullprodukten (extruderat nät) har ingen startkostnad.
 import { START_FEE, budgetPrice, volumeDiscount } from '@/lib/net-pricing';
+import { track } from '@/lib/analytics';
 
 const products = [
   { article: 'Art.I1889', name: '3mm 50mm maska svart', price: 50, description: 'Prisvärt nät för mås, duva, kaja' },
@@ -82,6 +83,12 @@ export default function PriceCalculatorFagel() {
     });
 
     if (response.ok) {
+      track('form_submit_kalkylator', {
+        calculator: 'fagel',
+        product: product?.name || 'Fågelskyddsnät',
+        area_sqm: isRollProduct ? undefined : totalArea,
+        budget_sek: totalPrice,
+      });
       setSubmitted(true);
     } else {
       alert('Kunde inte skicka förfrågan. Försök igen.');

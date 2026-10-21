@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { track } from '@/lib/analytics';
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -36,6 +37,7 @@ export default function ContactForm() {
         throw new Error(data.error || 'Något gick fel');
       }
 
+      track('form_submit_contact');
       setStatus('success');
       setFormData({
         name: '',
