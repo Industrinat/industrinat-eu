@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import CookieConsent from "@/components/CookieConsent";
 import ChatWidget from '@/components/ChatWidget'
 import GoogleTagManager, { GtmNoScript } from "@/components/GoogleTagManager";
+import TelClickTracker from "@/components/TelClickTracker";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -66,6 +67,7 @@ export default function RootLayout({
         <Footer />
         <CookieConsent />
         <ChatWidget />
+        <TelClickTracker />
       </body>
     </html>
   );
