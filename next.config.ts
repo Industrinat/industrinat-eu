@@ -222,6 +222,30 @@ const nextConfig: NextConfig = {
         destination: '/',
         permanent: true,
       },
+
+      // ============================================
+      // Tomma priskalkylatorsidor -> produktsidans kalkylator (2026-10-21)
+      // ============================================
+      {
+        source: '/priskalkylator-fagelskyddsnat',
+        destination: '/fagelskyddsnat#priskalkylator',
+        statusCode: 301,
+      },
+      {
+        source: '/priskalkylator-fallandeforemal',
+        destination: '/nat_fallandeforemal#priskalkylator',
+        statusCode: 301,
+      },
+      {
+        source: '/priskalkylator-fallskyddsnat-person',
+        destination: '/fallskyddsnat#priskalkylator',
+        statusCode: 301,
+      },
+      {
+        source: '/priskalkylator-lattar-nat-sportnat',
+        destination: '/sportnat#priskalkylator',
+        statusCode: 301,
+      },
     ];
   },
 };
