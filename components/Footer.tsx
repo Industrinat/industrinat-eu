@@ -31,7 +31,7 @@ export default function Footer() {
           <div>
             <h4 className="text-sm font-semibold uppercase tracking-wide text-gray-400 mb-4">Kontakt</h4>
             <div className="space-y-3">
-              <a href="tel:+46317884512" className="block text-gray-300 hover:text-white transition-colors">
+              <a href="tel:+46317884512" data-tel-location="footer" className="block text-gray-300 hover:text-white transition-colors">
                 031-788 45 12
               </a>
               <a href="mailto:info@industrinat.se" className="block text-gray-300 hover:text-white transition-colors">

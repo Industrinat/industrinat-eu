@@ -108,7 +108,7 @@ export default function Header() {
 
           {/* Phone + CTA */}
           <div className="hidden lg:flex items-center space-x-4">
-            <a href="tel:+46317884512" className="text-gray-700 hover:text-orange-500 font-medium">
+            <a href="tel:+46317884512" data-tel-location="header" className="text-gray-700 hover:text-orange-500 font-medium">
               031-788 45 12
             </a>
             <Link
@@ -163,7 +163,7 @@ export default function Header() {
               </div>
             ))}
             <div className="mt-4 px-4">
-              <a href="tel:+46317884512" className="block py-2 text-orange-500 font-medium">
+              <a href="tel:+46317884512" data-tel-location="header" className="block py-2 text-orange-500 font-medium">
                 📞 031-788 45 12
               </a>
             </div>

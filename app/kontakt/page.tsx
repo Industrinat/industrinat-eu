@@ -31,7 +31,7 @@ export default function KontaktPage() {
       <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-6">
-            <a href="tel:+46317884512" className="group flex items-center gap-4 p-6 bg-gray-50 rounded-lg hover:bg-orange-50 hover:border-orange-500 border border-gray-200 transition-all">
+            <a href="tel:+46317884512" data-tel-location="kontakt" className="group flex items-center gap-4 p-6 bg-gray-50 rounded-lg hover:bg-orange-50 hover:border-orange-500 border border-gray-200 transition-all">
               <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center group-hover:bg-orange-500 transition-colors">
                 <Phone className="w-6 h-6 text-orange-500 group-hover:text-white transition-colors" />
               </div>
@@ -79,7 +79,7 @@ export default function KontaktPage() {
                   <Phone className="w-6 h-6 text-orange-500 flex-shrink-0" />
                   <div>
                     <h3 className="text-sm font-medium text-gray-500 mb-1">Telefon</h3>
-                    <a href="tel:+46317884512" className="text-xl font-semibold text-gray-900 hover:text-orange-500 transition-colors">
+                    <a href="tel:+46317884512" data-tel-location="kontakt" className="text-xl font-semibold text-gray-900 hover:text-orange-500 transition-colors">
                       031-788 45 12
                     </a>
                   </div>
@@ -146,6 +146,7 @@ export default function KontaktPage() {
           <p className="text-gray-400 mb-8">Ring oss så hjälper vi dig hitta rätt lösning.</p>
           <a 
             href="tel:+46317884512" 
+            data-tel-location="kontakt"
             className="inline-flex items-center justify-center gap-2 bg-white text-gray-900 hover:bg-gray-100 font-semibold px-8 py-4 rounded-lg transition-colors"
           >
             <Phone className="w-5 h-5" />
