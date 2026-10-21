@@ -21,7 +21,7 @@ const products = [
   
   // Fallande föremål
   { article: 'Art.I1885', name: '4mm 40mm', price: 80, category: 'fallande', description: 'Tät maska, lätta föremål' },
-  { article: 'Art.I1886', name: '4mm 50mm', price: 70, category: 'fallande', description: 'Standard, lätta föremål' },
+  { article: 'Art.I1886', name: '4mm 50mm', price: 80, category: 'fallande', description: 'Standard, lätta föremål' },
   { article: 'Art.I1886_F', name: '4mm 50mm flamskydd', price: 95, category: 'fallande', description: 'Med flamskydd' },
   { article: 'Art.I2009', name: 'Kombonät 5mm 45 + 2,9mm 20', price: 180, category: 'fallande', description: 'Dubbelt skydd, finmaskigt overlay' },
   { article: 'Art.I2010', name: 'Kombonät 5mm 45 + overlay', price: 220, category: 'fallande', description: 'Trippelskydd' },

@@ -2,10 +2,14 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import PriceSummary from '@/components/PriceSummary';
+// Startkostnad, volymrabatt och budgetpris är gemensamma för näten
+// (lib/net-pricing.ts). Repnät dimensioneras individuellt och får bara offert.
+import { START_FEE, budgetPrice, volumeDiscount } from '@/lib/net-pricing';
 
 const products = [
   { article: 'Art.I1885', name: '4mm 40mm maska', price: 80, category: 'light', description: 'Bra allround-nät för fallande föremål' },
-  { article: 'Art.I1886', name: '4mm 50mm maska', price: 70, category: 'light', description: 'Lättare föremål, god luftgenomsläpp' },
+  { article: 'Art.I1886', name: '4mm 50mm maska', price: 80, category: 'light', description: 'Lättare föremål, god luftgenomsläpp' },
   { article: 'Art.I1886_F', name: '4mm 50mm maska flamskydd', price: 95, category: 'light', description: 'Flamskyddsbehandlad' },
   { article: 'Art.G101', name: '2,9mm 20mm maska', price: 100, category: 'light', description: 'Finmaskigt för smådelar' },
   { article: 'Art.I2005', name: '5mm 45mm maska EN1263-1', price: 123, category: 'medium', description: 'Klassat fallskyddsnät, även för personer' },
@@ -58,20 +62,9 @@ export default function PriceCalculatorFallande() {
   const pricePerSqm = product?.price || 0;
   const area = length * width;
   const totalArea = Math.round(area * Math.max(1, quantity));
-  const startFee = 500;
-
-  let discount = 0;
-  if (totalArea > 1000) {
-    discount = 0.13;
-  } else if (totalArea > 500) {
-    discount = 0.10;
-  }
-
-  const subtotal = totalArea * pricePerSqm;
-  const discountAmount = Math.round(subtotal * discount);
-  const totalPrice = Math.round(subtotal - discountAmount + startFee);
-
   const isHeavyCategory = product?.article === 'REPNAT';
+  const discount = isHeavyCategory ? 0 : volumeDiscount(totalArea);
+  const totalPrice = budgetPrice({ area: totalArea, pricePerSqm, discountRate: discount }).total;
 
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
@@ -143,7 +136,7 @@ return (
               <option value="">Välj...</option>
               {filteredProducts.map((p) => (
                 <option key={p.article} value={p.article}>
-                  {p.name} {p.price > 0 ? '' : '- Offert'}
+                  {p.name} {p.price > 0 ? `- från ${p.price} kr/kvm` : '- Offert'}
                 </option>
               ))}
             </select>
@@ -199,32 +192,25 @@ return (
       </div>
 
       {/* Pris */}
-      {selectedProduct && totalArea > 0 && (
+      {selectedProduct && totalArea > 0 && (isHeavyCategory ? (
         <div className="border-t mt-6 pt-6">
           <div className="flex justify-between items-center">
             <div>
               <span className="text-gray-600">Total area: </span>
               <span className="font-medium">{totalArea.toLocaleString('sv-SE')} kvm</span>
-              {discount > 0 && !isHeavyCategory && (
-                <span className="ml-2 text-sm text-green-600">({Math.round(discount * 100)}% rabatt)</span>
-              )}
             </div>
             <div className="text-right">
               <div className="text-sm text-gray-500">Budgetpris</div>
-              {isHeavyCategory ? (
-                <div className="text-xl font-bold text-gray-900">Offert krävs</div>
-              ) : (
-                <div className="text-2xl font-bold text-gray-900">{totalPrice.toLocaleString('sv-SE')} kr</div>
-              )}
+              <div className="text-xl font-bold text-gray-900">Offert krävs</div>
             </div>
           </div>
           <p className="text-xs text-gray-500 mt-3">
-            {isHeavyCategory 
-              ? 'Repnät dimensioneras individuellt. Kontakta oss för offert.'
-              : 'Pris ex moms. Exakt pris i offert.'}
+            Repnät dimensioneras individuellt. Kontakta oss för offert.
           </p>
         </div>
-      )}
+      ) : (
+        <PriceSummary area={totalArea} discountRate={discount} startFee={START_FEE} total={totalPrice} />
+      ))}
 
       {/* Installation */}
       {selectedProduct && totalArea > 0 && (

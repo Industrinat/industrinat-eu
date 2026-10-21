@@ -5,6 +5,7 @@ import { Ruler, Award, Layers, Factory, FileText, Phone, Shield, HardHat } from 
 import PriceCalculatorFallande from '@/components/PriceCalculatorFallande';
 import FAQ from '@/components/FAQ';
 import { generatePageMetadata } from '@/lib/metadata';
+import { PRICE_NOTE } from '@/lib/net-pricing';
 
 export const metadata = generatePageMetadata({
   title: 'Nät för fallande föremål - Industrinät',
@@ -141,6 +142,9 @@ export default function FallandeforemalPage() {
             För tunga laster och speciallösningar lämnar vi offert.
           </p>
           <PriceCalculatorFallande />
+          <p className="text-sm text-gray-500 mt-4 max-w-2xl">
+            {PRICE_NOTE}
+          </p>
         </div>
       </section>
 
