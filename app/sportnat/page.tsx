@@ -4,6 +4,7 @@ import { Sun, Percent, Ruler, Wrench, Goal, Circle, Dumbbell, Mountain, Phone, F
 import PriceCalculatorSport from '@/components/PriceCalculatorSport';
 import FAQ from '@/components/FAQ';
 import { generatePageMetadata } from '@/lib/metadata';
+import { START_FEE, PRICE_NOTE, formatSek } from '@/lib/net-pricing';
 
 export const metadata = generatePageMetadata({
   title: 'Sportnät - Golf, Fotboll, Multisport | Industrinät',
@@ -51,13 +52,13 @@ const sportCategories = [
   { 
     title: 'Fotboll & Bollstopp', 
     description: 'Bollstoppsnät bakom mål och runt planer. 100mm maska i 3-4mm garn.',
-    products: ['3mm 100mm - 40 kr/kvm', '4mm 100mm - 50 kr/kvm'],
+    products: ['3mm 100mm - från 40 kr/kvm', '4mm 100mm - från 50 kr/kvm'],
     icon: Goal,
   },
   { 
     title: 'Multisport', 
     description: 'För idrottshallar, padel, tennis, handboll. Tätare maska för mindre bollar.',
-    products: ['3mm 40mm - 70 kr/kvm', '4mm 40mm - 90 kr/kvm'],
+    products: ['3mm 40mm - från 70 kr/kvm', '4mm 40mm - från 90 kr/kvm'],
     icon: Circle,
   },
   { 
@@ -189,6 +190,9 @@ export default function SportnatPage() {
               </div>
             ))}
           </div>
+          <p className="text-sm text-gray-500 mt-6">
+            Kvm-priser exkl. moms, plus startkostnad {formatSek(START_FEE)} per beställning.
+          </p>
         </div>
       </section>
 
@@ -201,6 +205,9 @@ export default function SportnatPage() {
             Volympris aktiveras automatiskt vid +1000 kvm.
           </p>
           <PriceCalculatorSport />
+          <p className="text-sm text-gray-500 mt-4 max-w-2xl">
+            {PRICE_NOTE}
+          </p>
         </div>
       </section>
 
