@@ -3,15 +3,23 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { writeFile, mkdir } from 'fs/promises'
 import { join } from 'path'
-
-// Enkel API-nyckel för säkerhet
-const API_KEY = process.env.NEWS_UPLOAD_API_KEY || 'industrinat-flowen-2025'
+import { randomBytes } from 'crypto'
+import { detectFileType } from '@/lib/file-type'
 
 export async function POST(request: NextRequest) {
   try {
+    // API-nyckel måste vara konfigurerad – ingen reserv i koden
+    const apiKey = process.env.NEWS_UPLOAD_API_KEY
+    if (!apiKey) {
+      return NextResponse.json(
+        { error: 'NEWS_UPLOAD_API_KEY is not configured' },
+        { status: 503 }
+      )
+    }
+
     // Validera API-nyckel
     const authHeader = request.headers.get('x-api-key')
-    if (authHeader !== API_KEY) {
+    if (authHeader !== apiKey) {
       return NextResponse.json(
         { error: 'Unauthorized' }, 
         { status: 401 }
@@ -28,15 +36,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Validera filtyp
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
-    if (!allowedTypes.includes(file.type)) {
-      return NextResponse.json(
-        { error: 'Invalid file type. Only JPG, PNG, WebP, GIF allowed.' },
-        { status: 400 }
-      )
-    }
-
     // Validera storlek (max 10MB)
     const maxSize = 10 * 1024 * 1024
     if (file.size > maxSize) {
@@ -46,19 +45,18 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Skapa filnamn med timestamp
-    const timestamp = Date.now()
-    const extension = file.name.split('.').pop()?.toLowerCase() || 'jpg'
-    const safeName = file.name
-      .replace(/\.[^/.]+$/, '') // Ta bort extension
-      .toLowerCase()
-      .replace(/[åä]/g, 'a')
-      .replace(/ö/g, 'o')
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-|-$/g, '')
-      .substring(0, 50) // Max 50 tecken
-    
-    const fileName = `${safeName}-${timestamp}.${extension}`
+    // Validera filtyp via magic bytes (file.name och file.type ignoreras)
+    const buffer = Buffer.from(await file.arrayBuffer())
+    const detected = detectFileType(buffer)
+    if (!detected) {
+      return NextResponse.json(
+        { error: 'Invalid file type. Only JPG, PNG, WebP, GIF allowed.' },
+        { status: 400 }
+      )
+    }
+
+    // Skapa filnamn med timestamp och slumpdel
+    const fileName = `${Date.now()}-${randomBytes(8).toString('hex')}.${detected.ext}`
 
     // Säkerställ att mappen finns
     const uploadDir = join(process.cwd(), 'public', 'images', 'nyheter')
@@ -66,7 +64,6 @@ export async function POST(request: NextRequest) {
 
     // Spara filen
     const filePath = join(uploadDir, fileName)
-    const buffer = Buffer.from(await file.arrayBuffer())
     await writeFile(filePath, buffer)
 
     console.log(`✅ News image uploaded: ${fileName}`)
