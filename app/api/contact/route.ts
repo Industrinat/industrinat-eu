@@ -23,7 +23,8 @@ function checkRateLimit(ip: string): boolean {
   return true
 }
 
-function isSuspiciousContent(text: string): boolean {
+// Returnerar det som träffade spärren, på en rad, eller null.
+function findSuspiciousContent(text: string): string | null {
   const suspiciousPatterns = [
     /viagra/i,
     /cialis/i,
@@ -36,7 +37,11 @@ function isSuspiciousContent(text: string): boolean {
     /(\w)\1{10,}/,
   ]
   
-  return suspiciousPatterns.some(pattern => pattern.test(text))
+  for (const pattern of suspiciousPatterns) {
+    const hit = pattern.exec(text)
+    if (hit) return hit[0].replace(/\s+/g, ' ').slice(0, 60)
+  }
+  return null
 }
 
 export async function POST(request: NextRequest) {
@@ -56,7 +61,10 @@ export async function POST(request: NextRequest) {
     }
     
     const body = await request.json()
-    const { name, company, email, phone, product, area, message, website, startTime } = body
+    const { name, company, email, phone, product, area, material, formType, message, website, startTime } = body
+    const isAccessories = formType === 'tillbehor'
+    // Misstänkta förfrågningar skickas markerade i stället för att slängas.
+    const suspectReasons: string[] = []
     
     // Honeypot
     if (website) {
@@ -66,8 +74,7 @@ export async function POST(request: NextRequest) {
     
     // Time check
     if (startTime && (Date.now() - startTime) < 3000) {
-      console.log('🚫 För snabbt! Bot')
-      return NextResponse.json({ success: true, message: 'Tack! Vi kontaktar dig snart.' })
+      suspectReasons.push('Skickat på under 3 sekunder')
     }
     
     // Validate
@@ -76,16 +83,15 @@ export async function POST(request: NextRequest) {
     }
     
     // Suspicious content
-    if (isSuspiciousContent(name) || isSuspiciousContent(email) || isSuspiciousContent(message)) {
-      console.log('🚫 Suspekt innehåll:', { name, email })
-      return NextResponse.json({ success: true, message: 'Tack! Vi kontaktar dig snart.' })
+    for (const [label, value] of [['namnet', name], ['e-posten', email], ['meddelandet', message]]) {
+      const hit = findSuspiciousContent(value)
+      if (hit) suspectReasons.push(`Spärrord i ${label}: ${hit}`)
     }
     
     // User-Agent
     const userAgent = request.headers.get('user-agent') || ''
     if (!userAgent || userAgent.length < 10) {
-      console.log('🚫 Suspekt User-Agent')
-      return NextResponse.json({ success: true, message: 'Tack! Vi kontaktar dig snart.' })
+      suspectReasons.push('Saknar eller har för kort User-Agent')
     }
     
     // Length checks
@@ -97,7 +103,17 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Meddelandet är för kort (minst 10 tecken)' }, { status: 400 })
     }
 
-    console.log('✅ Giltig förfrågan:', { name, email, product })
+    if (suspectReasons.length > 0) {
+      console.log('⚠️ Misstänkt skräp:', { name, email, suspectReasons })
+    } else {
+      console.log('✅ Giltig förfrågan:', { name, email, product })
+    }
+
+    const suspectPrefix = suspectReasons.length > 0 ? '[Misstänkt skräp] ' : ''
+    const suspectLine = suspectReasons.length > 0 ? `Orsak till markeringen: ${suspectReasons.join('; ')}\n\n` : ''
+    const details = isAccessories
+      ? `Infästning i: ${material || '-'}\n\nBeskriv projektet:\n${message}`
+      : `Ärende: ${product || '-'}\nYta (kvm): ${area || '-'}\n\nMeddelande:\n${message}`
 
     // Skicka via Microsoft Graph
     const tokenResponse = await fetch(`https://login.microsoftonline.com/${process.env.TENANT_ID}/oauth2/v2.0/token`, {
@@ -125,10 +141,10 @@ export async function POST(request: NextRequest) {
       },
       body: JSON.stringify({
         message: {
-          subject: `Webbförfrågan: ${name}${company ? ` (${company})` : ''}`,
+          subject: `${suspectPrefix}${isAccessories ? 'Tillbehörsförfrågan' : 'Webbförfrågan'}: ${name}${company ? ` (${company})` : ''}`,
           body: {
             contentType: 'Text',
-            content: `Namn: ${name}\nFöretag: ${company || '-'}\nE-post: ${email}\nTelefon: ${phone || '-'}\nÄrende: ${product || '-'}\nYta (kvm): ${area || '-'}\n\nMeddelande:\n${message}\n\n---\nIP: ${ip}\nUser-Agent: ${userAgent}`
+            content: `${suspectLine}Namn: ${name}\nFöretag: ${company || '-'}\nE-post: ${email}\nTelefon: ${phone || '-'}\n${details}\n\n---\nIP: ${ip}\nUser-Agent: ${userAgent}`
           },
           toRecipients: [{
             emailAddress: { address: process.env.MAIL_TO || 'info@industrinat.se' }

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Package, Factory, FileText, Anchor, Link2, CircleDot, Unlink, Grip, Wrench, Phone, CheckCircle, Box, Hammer } from 'lucide-react';
 import { generatePageMetadata } from '@/lib/metadata';
+import TillbehorForm from '@/components/TillbehorForm';
 
 export const metadata = generatePageMetadata({
   title: 'Tillbehör & Infästning för Skyddsnät | Industrinät',
@@ -99,13 +100,6 @@ const services = [
     description: 'Vårt team installerar skyddsnäten. Väljer ni installation dras 50% av förbesiktningen.',
     highlight: null,
   },
-];
-
-const materials = [
-  { value: 'betong', label: 'Betong' },
-  { value: 'tra', label: 'Trä' },
-  { value: 'metall', label: 'Metall' },
-  { value: 'blandat', label: 'Blandat/Osäker' },
 ];
 
 export default function TillbehorPage() {
@@ -331,96 +325,7 @@ export default function TillbehorPage() {
           <p className="text-gray-600 mb-8 text-center">
             Beskriv ert projekt så återkommer vi med en paketerad lösning.
           </p>
-          <form className="bg-gray-50 p-8 rounded-lg space-y-6">
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                  Namn *
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                />
-              </div>
-              <div>
-                <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-1">
-                  Företag
-                </label>
-                <input
-                  type="text"
-                  id="company"
-                  name="company"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                />
-              </div>
-            </div>
-
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                  E-post *
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                />
-              </div>
-              <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-                  Telefon
-                </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="material" className="block text-sm font-medium text-gray-700 mb-1">
-                Infästning i
-              </label>
-              <select
-                id="material"
-                name="material"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-              >
-                <option value="">Välj material...</option>
-                {materials.map((m) => (
-                  <option key={m.value} value={m.value}>{m.label}</option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-                Beskriv projektet *
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                rows={4}
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                placeholder="Beskriv vad ni behöver tillbehör till, ungefärlig storlek på projektet, etc."
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full bg-orange-500 text-white py-3 px-6 rounded-lg font-semibold hover:bg-orange-600 transition-colors"
-            >
-              Skicka förfrågan
-            </button>
-          </form>
+          <TillbehorForm />
         </div>
       </section>
 
