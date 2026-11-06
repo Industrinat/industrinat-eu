@@ -8,6 +8,7 @@ import PriceSummary from '@/components/PriceSummary';
 // Klätternät dimensioneras individuellt och får bara offert.
 import { START_FEE, budgetPrice, volumeDiscount } from '@/lib/net-pricing';
 import { track } from '@/lib/analytics';
+import { appendQuoteDetails, fileNames, optionLabel } from '@/lib/quote-form';
 
 const categories = [
   { id: '', name: 'Visa alla' },
@@ -33,6 +34,17 @@ const products = [
   // Klätternät
   { article: 'Art.S5001', name: 'Klätternät PP 16mm', price: 0, category: 'klatternot', description: 'Polypropen, lekplatser' },
   { article: 'Art.S5002', name: 'Klätternät stålvajerförstärkt', price: 0, category: 'klatternot', description: 'Med stålvajerkärna, lekplatser' },
+];
+
+const environmentOptions = [
+  { value: 'golfrange', label: 'Golfrange / Driving range' },
+  { value: 'golfbana', label: 'Golfbana' },
+  { value: 'fotbollsplan', label: 'Fotbollsplan' },
+  { value: 'idrottshall', label: 'Idrottshall' },
+  { value: 'skola', label: 'Skola / Skolgård' },
+  { value: 'lekplats', label: 'Lekplats' },
+  { value: 'padel', label: 'Padelbana' },
+  { value: 'ovrigt', label: 'Övrigt' },
 ];
 
 export default function PriceCalculatorSport() {
@@ -90,6 +102,17 @@ export default function PriceCalculatorSport() {
     formDataToSend.append('installation', wantInstallation ? 'Ja' : 'Nej');
     formDataToSend.append('message', installationDetails.additionalInfo || '');
     formDataToSend.append('source', 'sport-calculator');
+    appendQuoteDetails(formDataToSend, {
+      quantity: Math.max(1, quantity),
+      article: product?.article,
+      category: selectedCategory ? categories.find((c) => c.id === selectedCategory)?.name : undefined,
+      location: installationDetails.location,
+      environment: optionLabel(environmentOptions, installationDetails.environment),
+      doubleNet: installationDetails.wantDoubleNet,
+      preInspection: installationDetails.wantPreInspection,
+      marketingConsent,
+      fileName: fileNames(files),
+    });
 
     const response = await fetch('/api/quote', {
       method: 'POST',
@@ -271,14 +294,9 @@ return (
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                   >
                     <option value="">Välj...</option>
-                    <option value="golfrange">Golfrange / Driving range</option>
-                    <option value="golfbana">Golfbana</option>
-                    <option value="fotbollsplan">Fotbollsplan</option>
-                    <option value="idrottshall">Idrottshall</option>
-                    <option value="skola">Skola / Skolgård</option>
-                    <option value="lekplats">Lekplats</option>
-                    <option value="padel">Padelbana</option>
-                    <option value="ovrigt">Övrigt</option>
+                    {environmentOptions.map((o) => (
+                      <option key={o.value} value={o.value}>{o.label}</option>
+                    ))}
                   </select>
                 </div>
               </div>

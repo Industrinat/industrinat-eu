@@ -7,6 +7,7 @@ import PriceSummary from '@/components/PriceSummary';
 // (lib/net-pricing.ts). Repnät dimensioneras individuellt och får bara offert.
 import { START_FEE, budgetPrice, volumeDiscount } from '@/lib/net-pricing';
 import { track } from '@/lib/analytics';
+import { appendQuoteDetails, fileNames, optionLabel } from '@/lib/quote-form';
 
 const products = [
   { article: 'Art.I1885', name: '4mm 40mm maska', price: 80, category: 'light', description: 'Bra allround-nät för fallande föremål' },
@@ -30,6 +31,33 @@ const categories = [
   { id: 'medium', name: 'Medeltunga', description: 'Byggmaterial, sten' },
   { id: 'combo', name: 'Blandat', description: 'Stora + små' },
   { id: 'heavy', name: 'Tunga', description: 'Betong, berg' },
+];
+
+const usageOptions = [
+  { value: 'bygg', label: 'Byggarbetsplats' },
+  { value: 'industri', label: 'Industri / Fabrik' },
+  { value: 'lager', label: 'Lager / Logistik' },
+  { value: 'bro', label: 'Bro / Viadukt' },
+  { value: 'vindkraft', label: 'Vindkraftverk' },
+  { value: 'berg', label: 'Bergvägg / Tunnel' },
+  { value: 'fasad', label: 'Fasad' },
+  { value: 'ovrigt', label: 'Övrigt' },
+];
+
+const fallHeightOptions = [
+  { value: '0-3', label: '0-3 meter' },
+  { value: '3-7', label: '3-7 meter' },
+  { value: '7-15', label: '7-15 meter' },
+  { value: '15+', label: 'Över 15 meter' },
+  { value: 'unknown', label: 'Vet ej' },
+];
+
+const objectWeightOptions = [
+  { value: 'light', label: 'Lätt (under 5 kg)' },
+  { value: 'medium', label: 'Medel (5-50 kg)' },
+  { value: 'heavy', label: 'Tungt (50-500 kg)' },
+  { value: 'very-heavy', label: 'Mycket tungt (över 500 kg)' },
+  { value: 'unknown', label: 'Vet ej / Blandat' },
 ];
 
 export default function PriceCalculatorFallande() {
@@ -84,6 +112,18 @@ const handleSubmit = async (e: React.FormEvent) => {
     formDataToSend.append('installation', wantInstallation ? 'Ja' : 'Nej');
     formDataToSend.append('message', installationDetails.additionalInfo || '');
     formDataToSend.append('source', 'fallande-calculator');
+    appendQuoteDetails(formDataToSend, {
+      quantity: Math.max(1, quantity),
+      article: product?.article,
+      category: selectedCategory ? categories.find((c) => c.id === selectedCategory)?.name : undefined,
+      location: installationDetails.location,
+      environment: optionLabel(usageOptions, installationDetails.usage),
+      fallHeight: optionLabel(fallHeightOptions, installationDetails.fallHeight),
+      objectWeight: optionLabel(objectWeightOptions, installationDetails.objectWeight),
+      preInspection: installationDetails.wantPreInspection,
+      marketingConsent,
+      fileName: fileNames(files),
+    });
 
     const response = await fetch('/api/quote', {
       method: 'POST',
@@ -257,14 +297,9 @@ return (
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                   >
                     <option value="">Välj...</option>
-                    <option value="bygg">Byggarbetsplats</option>
-                    <option value="industri">Industri / Fabrik</option>
-                    <option value="lager">Lager / Logistik</option>
-                    <option value="bro">Bro / Viadukt</option>
-                    <option value="vindkraft">Vindkraftverk</option>
-                    <option value="berg">Bergvägg / Tunnel</option>
-                    <option value="fasad">Fasad</option>
-                    <option value="ovrigt">Övrigt</option>
+                    {usageOptions.map((o) => (
+                      <option key={o.value} value={o.value}>{o.label}</option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -278,11 +313,9 @@ return (
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                   >
                     <option value="">Välj...</option>
-                    <option value="0-3">0-3 meter</option>
-                    <option value="3-7">3-7 meter</option>
-                    <option value="7-15">7-15 meter</option>
-                    <option value="15+">Över 15 meter</option>
-                    <option value="unknown">Vet ej</option>
+                    {fallHeightOptions.map((o) => (
+                      <option key={o.value} value={o.value}>{o.label}</option>
+                    ))}
                   </select>
                 </div>
                 <div>
@@ -293,11 +326,9 @@ return (
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                   >
                     <option value="">Välj...</option>
-                    <option value="light">Lätt (under 5 kg)</option>
-                    <option value="medium">Medel (5-50 kg)</option>
-                    <option value="heavy">Tungt (50-500 kg)</option>
-                    <option value="very-heavy">Mycket tungt (över 500 kg)</option>
-                    <option value="unknown">Vet ej / Blandat</option>
+                    {objectWeightOptions.map((o) => (
+                      <option key={o.value} value={o.value}>{o.label}</option>
+                    ))}
                   </select>
                 </div>
               </div>

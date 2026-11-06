@@ -163,8 +163,9 @@ export default function PriceCalculatorFinmaskigt() {
     formData.append('email', contactInfo.email);
     formData.append('phone', contactInfo.phone);
     formData.append('source', 'finmaskigt-calculator');
+    // Bara namnet: själva filen följer inte med i mejlet.
     if (file) {
-      formData.append('file', file);
+      formData.append('fileName', file.name);
     }
 
     try {

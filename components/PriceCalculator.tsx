@@ -6,6 +6,7 @@ import PriceSummary from '@/components/PriceSummary';
 // Startkostnad, volymrabatt och budgetpris är gemensamma för näten (lib/net-pricing.ts).
 import { START_FEE, budgetPrice, volumeDiscount } from '@/lib/net-pricing';
 import { track } from '@/lib/analytics';
+import { appendQuoteDetails, fileNames, optionLabel } from '@/lib/quote-form';
 
 interface Product {
   article: string;
@@ -18,6 +19,14 @@ interface PriceCalculatorProps {
   products: Product[];
   startFee?: number;
 }
+
+const usageOptions = [
+  { value: 'fallskydd-person', label: 'Fallskyddsnät för fallande människor' },
+  { value: 'fallskydd-foremal', label: 'Nät som skyddar för fallande föremål' },
+  { value: 'sportnat', label: 'Sportnät' },
+  { value: 'fagelskydd', label: 'Fågelskydd' },
+  { value: 'avgransning', label: 'Andra avgränsningar' },
+];
 
 export default function PriceCalculator({ products, startFee = START_FEE }: PriceCalculatorProps) {
   const [selectedProduct, setSelectedProduct] = useState(products[0]?.article || '');
@@ -64,6 +73,15 @@ export default function PriceCalculator({ products, startFee = START_FEE }: Pric
     formDataToSend.append('installation', wantInstallation ? 'Ja' : 'Nej');
     formDataToSend.append('message', installationDetails.additionalInfo || '');
     formDataToSend.append('source', 'fallskydd-calculator');
+    appendQuoteDetails(formDataToSend, {
+      quantity: Math.max(1, quantity),
+      article: product?.article,
+      location: installationDetails.location,
+      environment: optionLabel(usageOptions, installationDetails.usage),
+      preInspection: installationDetails.wantPreInspection,
+      marketingConsent,
+      fileName: fileNames(files),
+    });
 
     const response = await fetch('/api/quote', {
       method: 'POST',
@@ -185,11 +203,9 @@ export default function PriceCalculator({ products, startFee = START_FEE }: Pric
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg"
               >
                 <option value="">Välj...</option>
-                <option value="fallskydd-person">Fallskyddsnät för fallande människor</option>
-                <option value="fallskydd-foremal">Nät som skyddar för fallande föremål</option>
-                <option value="sportnat">Sportnät</option>
-                <option value="fagelskydd">Fågelskydd</option>
-                <option value="avgransning">Andra avgränsningar</option>
+                {usageOptions.map((o) => (
+                  <option key={o.value} value={o.value}>{o.label}</option>
+                ))}
               </select>
             </div>
 

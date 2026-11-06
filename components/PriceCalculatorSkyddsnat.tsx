@@ -7,6 +7,7 @@ import PriceSummary from '@/components/PriceSummary';
 // (lib/net-pricing.ts). Golfnätens volympris från 1 000 kvm ersätter rabatten.
 import { START_FEE, budgetPrice, volumeDiscount } from '@/lib/net-pricing';
 import { track } from '@/lib/analytics';
+import { appendQuoteDetails, fileNames, optionLabel } from '@/lib/quote-form';
 
 const categories = [
   { id: '', name: 'Visa alla' },
@@ -55,6 +56,25 @@ const products = [
   { article: 'Art.N1885', name: '4mm 40mm svart', price: 80, category: 'industri', description: 'Avgränsning, tätare' },
   { article: 'Art.N2005', name: '5mm 45mm', price: 123, category: 'industri', description: 'Tung industri' },
   { article: 'Art.N100', name: '3mm 100mm', price: 40, category: 'industri', description: 'Lätt avgränsning' },
+];
+
+const environmentOptions = [
+  { value: 'bygg', label: 'Byggarbetsplats' },
+  { value: 'industri', label: 'Industri / Lager' },
+  { value: 'fasad', label: 'Fasad / Tak' },
+  { value: 'sport', label: 'Sportanläggning' },
+  { value: 'skola', label: 'Skola / Förskola' },
+  { value: 'bostadsratt', label: 'Bostadsrättsförening' },
+  { value: 'offentlig', label: 'Offentlig miljö' },
+  { value: 'ovrigt', label: 'Övrigt' },
+];
+
+const fallHeightOptions = [
+  { value: '0-3m', label: '0-3 meter' },
+  { value: '3-7m', label: '3-7 meter' },
+  { value: '7-15m', label: '7-15 meter' },
+  { value: '15+m', label: 'Över 15 meter' },
+  { value: 'unknown', label: 'Vet ej' },
 ];
 
 export default function PriceCalculatorSkyddsnat() {
@@ -122,6 +142,19 @@ export default function PriceCalculatorSkyddsnat() {
       formDataToSend.append('installation', wantInstallation ? 'Ja' : 'Nej');
       formDataToSend.append('message', installationDetails.additionalInfo || '');
       formDataToSend.append('source', 'skyddsnat-calculator');
+      appendQuoteDetails(formDataToSend, {
+        quantity: Math.max(1, quantity),
+        article: product?.article,
+        category: selectedCategory ? categories.find((c) => c.id === selectedCategory)?.name : undefined,
+        location: installationDetails.location,
+        environment: optionLabel(environmentOptions, installationDetails.environment),
+        // Fälten syns bara i vissa kategorier; ett gömt värde ska inte följa med.
+        fallHeight: selectedCategory === 'fallskydd' || selectedCategory === 'fallande' ? optionLabel(fallHeightOptions, installationDetails.fallHeight) : undefined,
+        doubleNet: selectedCategory === 'sport' && installationDetails.wantDoubleNet,
+        preInspection: installationDetails.wantPreInspection,
+        marketingConsent,
+        fileName: fileNames(files),
+      });
 
       const response = await fetch('/api/quote', {
         method: 'POST',
@@ -317,14 +350,9 @@ export default function PriceCalculatorSkyddsnat() {
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                   >
                     <option value="">Välj...</option>
-                    <option value="bygg">Byggarbetsplats</option>
-                    <option value="industri">Industri / Lager</option>
-                    <option value="fasad">Fasad / Tak</option>
-                    <option value="sport">Sportanläggning</option>
-                    <option value="skola">Skola / Förskola</option>
-                    <option value="bostadsratt">Bostadsrättsförening</option>
-                    <option value="offentlig">Offentlig miljö</option>
-                    <option value="ovrigt">Övrigt</option>
+                    {environmentOptions.map((o) => (
+                      <option key={o.value} value={o.value}>{o.label}</option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -338,11 +366,9 @@ export default function PriceCalculatorSkyddsnat() {
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                   >
                     <option value="">Välj...</option>
-                    <option value="0-3m">0-3 meter</option>
-                    <option value="3-7m">3-7 meter</option>
-                    <option value="7-15m">7-15 meter</option>
-                    <option value="15+m">Över 15 meter</option>
-                    <option value="unknown">Vet ej</option>
+                    {fallHeightOptions.map((o) => (
+                      <option key={o.value} value={o.value}>{o.label}</option>
+                    ))}
                   </select>
                 </div>
               )}

@@ -7,6 +7,7 @@ import PriceSummary from '@/components/PriceSummary';
 // Rullprodukten (extruderat nät) har ingen startkostnad.
 import { START_FEE, budgetPrice, volumeDiscount } from '@/lib/net-pricing';
 import { track } from '@/lib/analytics';
+import { appendQuoteDetails, fileNames, optionLabel } from '@/lib/quote-form';
 
 const products = [
   { article: 'Art.I1889', name: '3mm 50mm maska svart', price: 50, description: 'Prisvärt nät för mås, duva, kaja' },
@@ -23,6 +24,15 @@ const birdTypes = [
   { id: 'large', name: 'Större fåglar', description: 'Mås, kaja, duva', recommendedMesh: '30-50mm' },
   { id: 'small', name: 'Småfåglar', description: 'Sparv, koltrast, starar', recommendedMesh: '20mm' },
   { id: 'mixed', name: 'Alla fågeltyper', description: 'Blandat eller osäker', recommendedMesh: '20mm' },
+];
+
+const environmentOptions = [
+  { value: 'fasad', label: 'Fasad / Balkong' },
+  { value: 'tak', label: 'Tak / Takfot' },
+  { value: 'innergard', label: 'Innergård' },
+  { value: 'industri', label: 'Industri / Lager' },
+  { value: 'odling', label: 'Odling / Lantbruk' },
+  { value: 'ovrigt', label: 'Övrigt' },
 ];
 
 export default function PriceCalculatorFagel() {
@@ -69,13 +79,26 @@ export default function PriceCalculatorFagel() {
     formDataToSend.append('phone', formData.phone || '');
     formDataToSend.append('company', formData.company || '');
     formDataToSend.append('product', product?.name || 'Fågelskyddsnät');
-    formDataToSend.append('width', String(width));
-    formDataToSend.append('height', String(length));
+    // Måttfälten är dolda för rullar; ett tidigare ifyllt värde ska inte följa med.
+    if (!isRollProduct) {
+      formDataToSend.append('width', String(width));
+      formDataToSend.append('height', String(length));
+    }
     formDataToSend.append('area', isRollProduct ? '-' : String(totalArea));
     formDataToSend.append('price', String(totalPrice));
     formDataToSend.append('installation', wantInstallation ? 'Ja' : 'Nej');
     formDataToSend.append('message', installationDetails.additionalInfo || '');
     formDataToSend.append('source', 'fagel-calculator');
+    appendQuoteDetails(formDataToSend, {
+      quantity: isRollProduct ? quantity : Math.max(1, quantity),
+      article: product?.article,
+      category: birdTypes.find((b) => b.id === selectedBirdType)?.name,
+      location: installationDetails.location,
+      environment: optionLabel(environmentOptions, installationDetails.environment),
+      preInspection: installationDetails.wantPreInspection,
+      marketingConsent,
+      fileName: fileNames(files),
+    });
 
     const response = await fetch('/api/quote', {
       method: 'POST',
@@ -263,12 +286,9 @@ return (
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                   >
                     <option value="">Välj...</option>
-                    <option value="fasad">Fasad / Balkong</option>
-                    <option value="tak">Tak / Takfot</option>
-                    <option value="innergard">Innergård</option>
-                    <option value="industri">Industri / Lager</option>
-                    <option value="odling">Odling / Lantbruk</option>
-                    <option value="ovrigt">Övrigt</option>
+                    {environmentOptions.map((o) => (
+                      <option key={o.value} value={o.value}>{o.label}</option>
+                    ))}
                   </select>
                 </div>
               </div>

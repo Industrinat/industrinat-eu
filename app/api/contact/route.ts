@@ -44,6 +44,17 @@ function findSuspiciousContent(text: string): string | null {
   return null
 }
 
+// Etiketterna i listan "Välj ärende" i ContactForm.
+const CONTACT_SUBJECTS = new Map([
+  ['skyddsnat', 'Skyddsnät'],
+  ['fallskyddsnat', 'Fallskyddsnät'],
+  ['fagelskyddsnat', 'Fågelskyddsnät'],
+  ['installation', 'Installation'],
+  ['besiktning', 'Besiktning'],
+  ['radgivning', 'Rådgivning'],
+  ['ovrigt', 'Övrigt'],
+])
+
 export async function POST(request: NextRequest) {
   try {
     const ip = request.headers.get('x-forwarded-for') || 
@@ -113,7 +124,7 @@ export async function POST(request: NextRequest) {
     const suspectLine = suspectReasons.length > 0 ? `Orsak till markeringen: ${suspectReasons.join('; ')}\n\n` : ''
     const details = isAccessories
       ? `Infästning i: ${material || '-'}\n\nBeskriv projektet:\n${message}`
-      : `Ärende: ${product || '-'}\nYta (kvm): ${area || '-'}\n\nMeddelande:\n${message}`
+      : `Ärende: ${CONTACT_SUBJECTS.get(product) ?? (product || '-')}\nYta (kvm): ${area || '-'}\n\nMeddelande:\n${message}`
 
     // Skicka via Microsoft Graph
     const tokenResponse = await fetch(`https://login.microsoftonline.com/${process.env.TENANT_ID}/oauth2/v2.0/token`, {
