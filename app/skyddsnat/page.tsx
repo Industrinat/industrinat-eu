@@ -101,14 +101,16 @@ export default function SkyddsnatPage() {
                 EU-tillverkade med upp till 10 års garanti.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <a 
-                  href="#kalkylator" 
+                <a
+                  href="#kalkylator"
+                  data-umami-event="klick-kalkylator"
                   className="inline-block bg-orange-500 text-white px-8 py-4 rounded-lg font-semibold hover:bg-orange-600 transition-colors text-center"
                 >
                   Beräkna pris
                 </a>
-                <Link 
-                  href="/kontakt" 
+                <Link
+                  href="/kontakt"
+                  data-umami-event="klick-kontakt"
                   className="inline-block border-2 border-gray-300 text-gray-900 px-8 py-4 rounded-lg font-semibold hover:bg-white transition-colors text-center"
                 >
                   Fri rådgivning
@@ -366,7 +368,7 @@ export default function SkyddsnatPage() {
           <h2 className="text-3xl font-bold text-white mb-4">Behöver du skyddsnät?</h2>
           <p className="text-gray-400 mb-8">Kontakta oss för fri rådgivning och offert - vi hjälper dig hitta rätt lösning.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/kontakt" className="inline-block bg-white text-gray-900 hover:bg-gray-100 font-semibold px-8 py-4 rounded-lg transition-colors">
+            <Link href="/kontakt" data-umami-event="klick-kontakt" className="inline-block bg-white text-gray-900 hover:bg-gray-100 font-semibold px-8 py-4 rounded-lg transition-colors">
               Kontakta oss
             </Link>
             <a href="tel:+46317884512" className="inline-flex items-center justify-center gap-2 border border-gray-600 text-white hover:bg-gray-800 font-semibold px-8 py-4 rounded-lg transition-colors">

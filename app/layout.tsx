@@ -8,6 +8,7 @@ import CookieConsent from "@/components/CookieConsent";
 import ChatWidget from '@/components/ChatWidget'
 import GoogleTagManager, { GtmNoScript } from "@/components/GoogleTagManager";
 import TelClickTracker from "@/components/TelClickTracker";
+import UmamiStay from "@/components/UmamiStay";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -49,9 +50,15 @@ export default function RootLayout({
           `}
         </Script>
 
-        {/* Umami analytics (self-hosted, EU) */}
+        {/* Umami analytics (self-hosted, EU).
+            Id:t får ALDRIG vara "umami": varje DOM-element med ett id blir
+            en egenskap på window (named element access), så id="umami" gör
+            window.umami till själva script-elementet. Trackern installerar
+            sitt API bara om window.umami inte redan finns - med id="umami"
+            installeras det alltså aldrig och alla umami.track-anrop blir
+            tysta no-ops (sidvisningarna påverkas inte, så felet syns inte). */}
         <Script
-          id="umami"
+          id="umami-analytics-script"
           defer
           src="https://analytics.flowen.eu/script.js"
           data-website-id="79a48d12-b6dd-47b2-8d4e-1b9599de457b"
@@ -68,6 +75,7 @@ export default function RootLayout({
         <CookieConsent />
         <ChatWidget />
         <TelClickTracker />
+        <UmamiStay />
       </body>
     </html>
   );
