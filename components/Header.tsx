@@ -89,8 +89,8 @@ export default function Header() {
                     </svg>
                   )}
                 </Link>
-                {item.children && openDropdown === item.name && (
-                  <div className="absolute top-full left-0 w-56 bg-white shadow-lg rounded-md py-2 mt-0">
+                {item.children && (
+                  <div className={`${openDropdown === item.name ? '' : 'hidden '}absolute top-full left-0 w-56 bg-white shadow-lg rounded-md py-2 mt-0`}>
                     {item.children.map((child) => (
                       <Link
                         key={child.name}
@@ -135,8 +135,7 @@ export default function Header() {
         </div>
 
         {/* Mobile Navigation */}
-        {mobileMenuOpen && (
-          <div className="lg:hidden py-4 border-t">
+        <div className={`${mobileMenuOpen ? '' : 'hidden '}lg:hidden py-4 border-t`}>
             {navigation.map((item) => (
               <div key={item.name}>
                 <Link
@@ -167,8 +166,7 @@ export default function Header() {
                 📞 031-788 45 12
               </a>
             </div>
-          </div>
-        )}
+        </div>
       </nav>
     </header>
   );

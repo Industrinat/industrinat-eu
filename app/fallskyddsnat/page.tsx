@@ -3,7 +3,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Shield, Award, Ruler, Leaf, FileText, Phone } from 'lucide-react';
 import PriceCalculator from '@/components/PriceCalculator';
-import FAQ from '@/components/FAQ';
 import { generatePageMetadata } from '@/lib/metadata';
 import { START_FEE, PRICE_NOTE, formatSek } from '@/lib/net-pricing';
 
@@ -32,6 +31,17 @@ const faqs = [
   { question: 'Vilka färger finns?', answer: 'Våra fallskyddsnät finns i svart, röd, vit, blå och grön.' },
 ];
 
+// Byggs från samma lista som visas, så att datan alltid stämmer med sidan
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+};
+
 const features = [
   { title: 'Kollektivt fallskydd', description: 'Kräver ingen kompetens hos användaren.', icon: Shield },
   { title: 'Certifierat enligt EN1263-1', description: 'Testat för fall av 100 kg från 7 meters höjd.', icon: Award },
@@ -42,6 +52,10 @@ const features = [
 export default function FallskyddsnatPage() {
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema).replace(/</g, '\\u003c') }}
+      />
       {/* Hero - Ljus */}
       <section className="bg-gray-50 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -148,7 +162,28 @@ export default function FallskyddsnatPage() {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-gray-900 mb-8">Vanliga frågor</h2>
-          <FAQ items={faqs} />
+          {/* details/summary: svaren finns alltid i HTML-koden och fälls ut utan JavaScript.
+              Samma name gör att bara en fråga är öppen åt gången, som i FAQ-komponenten. */}
+          <div className="space-y-3 max-w-3xl">
+            {faqs.map((faq) => (
+              <details key={faq.question} name="faq-fallskyddsnat" className="group bg-white border border-gray-200 rounded-lg">
+                <summary className="w-full px-6 py-4 text-left flex justify-between items-center cursor-default list-none [&::-webkit-details-marker]:hidden">
+                  <span className="font-medium text-gray-900">{faq.question}</span>
+                  <svg
+                    className="w-5 h-5 text-gray-500 transition-transform group-open:rotate-180"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </summary>
+                <div className="px-6 pb-4">
+                  <p className="text-gray-600">{faq.answer}</p>
+                </div>
+              </details>
+            ))}
+          </div>
         </div>
       </section>
 

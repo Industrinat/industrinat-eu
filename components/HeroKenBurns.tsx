@@ -79,7 +79,7 @@ export default function HeroKenBurns() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="/contact"
+              href="/kontakt"
               className="inline-block bg-orange-500 hover:bg-orange-600 text-white font-semibold px-8 py-4 rounded-lg transition-colors"
             >
               Kontakta oss
