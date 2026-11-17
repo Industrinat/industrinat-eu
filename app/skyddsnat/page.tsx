@@ -211,7 +211,7 @@ export default function SkyddsnatPage() {
                 <div>
                   <h3 className="text-xl font-semibold text-gray-900 mb-3">Olika typer av skyddsnät</h3>
                   <p>
-                    <strong>Fallskyddsnät</strong> är certifierade enligt EN1263-1 och används för att skydda 
+                    <Link href="/fallskyddsnat" className="text-orange-500 hover:text-orange-600 underline"><strong>Fallskyddsnät</strong></Link> är certifierade enligt EN1263-1 och används för att skydda 
                     personer som arbetar på höjd. Dessa nät är konstruerade för att fånga upp en person vid 
                     fall och absorbera kraften på ett säkert sätt. Fallskyddsnät är ett krav på många 
                     byggarbetsplatser enligt Arbetsmiljöverkets föreskrifter.

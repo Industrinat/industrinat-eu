@@ -95,7 +95,7 @@ export default function Home() {
               Skyddsnät för industri och bygg
             </h2>
             <p className="text-lg text-gray-600 mb-4">
-              Industrinät levererar <strong>fallskyddsnät</strong>, <strong>skyddsnät mot fallande föremål</strong> och 
+              Industrinät levererar <Link href="/fallskyddsnat" className="text-orange-500 hover:text-orange-600 underline"><strong>fallskyddsnät</strong></Link>, <strong>skyddsnät mot fallande föremål</strong> och 
               specialanpassade nätlösningar till företag i hela Norden. Vi erbjuder allt från rådgivning 
               och installation till besiktning och utbildning.
             </p>

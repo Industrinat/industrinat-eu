@@ -174,7 +174,7 @@ export default function FallandeforemalPage() {
               </div>
               <div className="space-y-4 text-gray-600">
                 <p>
-                  Till skillnad från fallskyddsnät för personer, där EN1263-1 ger tydliga riktlinjer, 
+                  Till skillnad från <Link href="/fallskyddsnat" className="text-orange-500 hover:text-orange-600 underline">fallskyddsnät</Link> för personer, där EN1263-1 ger tydliga riktlinjer, 
                   dimensioneras nät för fallande föremål utifrån flera faktorer:
                 </p>
                 <ul className="space-y-3">
